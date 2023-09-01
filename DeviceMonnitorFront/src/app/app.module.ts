@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { MainScreenComponent } from './main-screen/main-screen.component';
+import { HomeScreenComponent } from './home-screen/home-screen.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthGuard } from '../services/auth.guard';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,8 +27,9 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     LoginScreenComponent,
-    MainScreenComponent,    
-    ModalContentComponent, 
+    MainScreenComponent,
+    HomeScreenComponent,
+    ModalContentComponent,
     ModalArchiveComponent
   ],
   imports: [
@@ -41,9 +43,9 @@ registerLocaleData(en);
     NgZorroAntdModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true},
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     AuthGuard, Constants, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
-  entryComponents: [ ModalContentComponent ]
+  entryComponents: [ModalContentComponent]
 })
 export class AppModule { }

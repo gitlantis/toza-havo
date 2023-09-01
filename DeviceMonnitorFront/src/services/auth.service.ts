@@ -24,7 +24,7 @@ export class AuthService extends BaseService {
         if (res != null) {
           UserService.setUsername(res['username']);
           UserService.setToken(res['token'])
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl('/main');
           return true;
         } else {          
           this.toastr.error("Check username and password again", 'Auth error!');     

@@ -7,5 +7,5 @@ import { Injectable } from "@angular/core";
 
 export class Constants {
   // readonly baseUrl = 'http://api.webscada.uz/api'  
-  readonly baseUrl = 'https://localhost:5001/api'  
+  readonly baseUrl = 'http://localhost:5000/api'  
 }
