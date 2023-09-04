@@ -29,10 +29,10 @@ namespace DeviceMonnitorAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string mySqlConnectionStr = Constants.connectionStrings;
+            string ngsqlConnectionStr = Constants.connectionStrings;
                         
             //services.AddDbContextPool<MyDBContext>(options => options.UseLazyLoadingProxies().UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr)));
-            services.AddDbContextPool<MyDBContext>(options => options.UseMySql(mySqlConnectionStr, ServerVersion.AutoDetect(mySqlConnectionStr), op=>op.EnableRetryOnFailure()));
+            services.AddDbContextPool<MyDBContext>(options => options.UseNpgsql(ngsqlConnectionStr));
             services.AddTransient<TimedHostedService>();
             services.AddTransient<UserService>();
             services.AddTransient<DeviceService>();

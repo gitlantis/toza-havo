@@ -16,30 +16,30 @@ namespace DeviceMonnitorAPI.DBModels
         [Key]
         public Guid UserGuid { get; set; }
 
-        [Column(TypeName = "nvarchar(50)")]
+        //[Column(TypeName = "nvarchar(50)")]
         public string FirstName { get; set; }
-        [Column(TypeName = "nvarchar(50)")]
+        //[Column(TypeName = "nvarchar(50)")]
         public string LastName { get; set; }
-        [Column(TypeName = "nvarchar(50)")]
+        //[Column(TypeName = "nvarchar(50)")]
         [Index(Unique = true)]
         public string Username { get; set; }
-        [Column(TypeName = "nvarchar(50)")]
+        //[Column(TypeName = "nvarchar(50)")]
         public string Password { get; set; }
-        [Column(TypeName = "nvarchar(500)")]
+        //[Column(TypeName = "nvarchar(500)")]
         public string Token { get; set; }
-        [Column(TypeName = "nvarchar(50)")]
+        //[Column(TypeName = "nvarchar(50)")]
         public string Role { get; set; }
         public bool IsActive { get; set; }
-        [Column(TypeName = "nvarchar(4000)")]
+        //[Column(TypeName = "nvarchar(4000)")]
         public string Description { get; set; }
 
-        [Column(TypeName = "date")]
+        //[Column(TypeName = "date")]
         public DateTime TokenExpire { get; set; }
 
-        [Column(TypeName = "datetime")]
+        //[Column(TypeName = "datetime")]
         public DateTime CreatedDate { get; set; }
 
-        [Column(TypeName = "datetime")]
+        //[Column(TypeName = "datetime")]
         public DateTime EditedDate { get; set; }
         public virtual ICollection<Device> Devices { get; set; }
         public virtual ICollection<DeviceUser> DeviceUsers { get; set; }

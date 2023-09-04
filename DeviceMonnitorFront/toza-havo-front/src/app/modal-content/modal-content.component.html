@@ -1,0 +1,71 @@
+<div class="container">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ guid }} - {{ deviceName }}
+    </h4>
+    <button
+      type="button"
+      class="btn close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <!-- <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form)"> -->
+      <form class="form" #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Переменный</th>
+              <th scope="col">Описание</th>
+              <th scope="col">Значение</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of deviceConfig; let i = index"
+              class="text-peimary"
+            >
+              <td style="width: 40%">
+                <label for="{{ item.name }}">{{ item.name }}</label>
+              </td>
+              <td style="width: 40%">
+                <label for="{{ item.name }}">{{ item.comment }}</label>
+              </td>
+              <td style="width: 20%">
+                <div
+                  *ngIf="!(item?.value === 'true' || item?.value === 'false')"
+                >
+                  <input
+                    id="{{ item.confGuid }}"
+                    class="form-control"
+                    type="{{ item?.type }}"
+                    name="{{ item.confGuid }}"
+                    value="{{ item?.value }}"
+                    ngModel="{{ deviceConfig[i].value }}"
+                  />
+                </div>
+                <div *ngIf="item?.value == 'true' || item?.value == 'false'">
+                  <nz-switch
+                    [name]="item.confGuid"
+                    [ngModel]="item?.value === 'true' ? true : false"
+                    [nzId]="item.confGuid"
+                  ></nz-switch>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row d-flex align-items-center justify-content-center">
+          <button type="submit" class="btn btn-primary px-4 float-right">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

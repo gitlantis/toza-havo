@@ -15,9 +15,9 @@ namespace DeviceMonnitorAPI.DBModels
     {
         [Key]
         public Guid DeviceGuid { get; set; }
-        [Column(TypeName = "nvarchar(50)")]
+        //[Column(TypeName = "nvarchar(50)")]
         public string Name { get; set; }
-        [Column(TypeName = "nvarchar(4000)")]
+        //[Column(TypeName = "nvarchar(4000)")]
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }

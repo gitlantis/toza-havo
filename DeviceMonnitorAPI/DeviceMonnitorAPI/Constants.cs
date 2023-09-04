@@ -9,7 +9,7 @@ namespace DeviceMonnitorAPI
     public class Constants
     {
         static public int diffMins = 3;
-        static public string connectionStrings = "server=127.0.0.1; port=3306; database=_devcontroldb01; user=root; password=; Persist Security Info=False; Connect Timeout=300";
+        static public string connectionStrings = "Host=localhost; Database=monnitordb; Username=postgres; Password=S@ltek2023";
         static public string JWT_SecureKey = "ca721231-b28d-412e-9a3e-9cd6cc6b864d";
         static public string JWT_Issuer = "https://api.webscada.uz";
         static public string JWT_Audience = "https://api.webscada.uz";
@@ -20,7 +20,7 @@ namespace DeviceMonnitorAPI
         static public string baseTree = "InputData";
         
         //redis server
-        static public string redis = "localhsot:6379";
+        static public string redis = "localhsot:6379,password='OMZ23HCGu8WTA93z4dNglkoArdCjTOVfSaRndgZ0Wyk/w01aA6Zb33kMybEEYwpXWmT6NgmYtEyk8BIl'";
 
     }
 }

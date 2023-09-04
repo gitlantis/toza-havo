@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      {{ guid }} - {{ deviceName }}
+    </h4>
+    <button
+      type="button"
+      class="btn close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="row" *ngFor="let arch of archive">
+        <p>
+          {{
+            arch.createdDate?.toString() + "Z" | date : "yyyy-MM-dd HH:mm:ss"
+          }}
+        </p>
+        <blockquote class="blockquote mb-0">
+          <nz-collapse>
+            <nz-collapse-panel
+              nzHeader="Data"
+              nzActive="false"
+              nzDisabled="false"
+            >
+              <!-- <p style="margin:0;"> -->
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th style="width: 70%">Параметры</th>
+                    <th style="width: 30%">Значении</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr
+                    *ngFor="let item of arch.ai; let i = index"
+                    class="text-peimary"
+                  >
+                    <td>{{ item.paramName }}</td>
+                    <td>{{ item.params }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- </p> -->
+            </nz-collapse-panel>
+          </nz-collapse>
+        </blockquote>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-center mt-3">
+      <nz-pagination
+        [nzPageIndex]="params.pageNum"
+        [nzTotal]="params.pageCount"
+        [nzSize]="'small'"
+        (nzPageIndexChange)="getArchive($event)"
+      ></nz-pagination>
+      <select class="col-2" (change)="getArchive(1, +mySelect.value)" #mySelect>
+        <option [value]="2" selected>2</option>
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+      </select>
+    </div>
+  </div>
+</div>

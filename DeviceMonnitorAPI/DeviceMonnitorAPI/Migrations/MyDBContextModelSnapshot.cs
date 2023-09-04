@@ -4,6 +4,7 @@ using DeviceMonnitorAPI.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DeviceMonnitorAPI.Migrations
 {
@@ -14,23 +15,24 @@ namespace DeviceMonnitorAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.5");
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.5")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("DeviceMonnitorAPI.DBModels.DataAI", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DataGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Param")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -43,16 +45,16 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DataGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Param")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -65,16 +67,16 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DataGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Param")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -87,16 +89,16 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DataGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Param")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -109,16 +111,16 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DataGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Param")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -131,22 +133,22 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("DeviceGuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(4000)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EditedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("text");
 
                     b.HasKey("DeviceGuid")
                         .HasName("PK_Device");
@@ -158,73 +160,73 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("ConfGuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<decimal>("Cadw")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("Calm")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<decimal>("Cup")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<bool>("DO0")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("DO1")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("DO2")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("DO3")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("DeviceGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("DownTime")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("EMode")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("EditedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("EditedUserIdUserGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Ertime")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("LowVtime")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Ontime")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("OverVtime")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Overtime")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("UMax")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("UMin")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("Wdw")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.Property<decimal>("Wup")
-                        .HasColumnType("decimal(65,30)");
+                        .HasColumnType("numeric");
 
                     b.HasKey("ConfGuid");
 
@@ -239,28 +241,28 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("ConfGuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DeviceGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("EditedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.Property<string>("Type")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.HasKey("ConfGuid");
 
@@ -273,16 +275,16 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DeviceGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("EditedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -294,15 +296,25 @@ namespace DeviceMonnitorAPI.Migrations
             modelBuilder.Entity("DeviceMonnitorAPI.DBModels.DeviceUser", b =>
                 {
                     b.Property<Guid>("DevicesDeviceGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("UsersUserGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("CanEdit")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("DeviceGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("UserGuid")
+                        .HasColumnType("uuid");
 
                     b.HasKey("DevicesDeviceGuid", "UsersUserGuid");
+
+                    b.HasIndex("DeviceGuid");
+
+                    b.HasIndex("UserGuid");
 
                     b.HasIndex("UsersUserGuid");
 
@@ -313,25 +325,25 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DeviceGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.Property<string>("NameDomain")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("text");
 
                     b.Property<int>("NameIndex")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("OrderIndex")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id")
                         .HasName("PK_ParamName");
@@ -346,40 +358,40 @@ namespace DeviceMonnitorAPI.Migrations
                 {
                     b.Property<Guid>("UserGuid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(4000)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("EditedDate")
-                        .HasColumnType("datetime");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Role")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Token")
-                        .HasColumnType("nvarchar(500)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("TokenExpire")
-                        .HasColumnType("date");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserGuid")
                         .HasName("PK_Users");
@@ -392,8 +404,8 @@ namespace DeviceMonnitorAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserGuid = new Guid("cd975c4b-ba17-4b79-a452-ff3494bbfadf"),
-                            CreatedDate = new DateTime(2023, 4, 30, 19, 6, 37, 872, DateTimeKind.Local).AddTicks(2940),
+                            UserGuid = new Guid("50961d2e-a50b-4fdc-be08-a63aa079e4be"),
+                            CreatedDate = new DateTime(2023, 8, 31, 18, 47, 41, 669, DateTimeKind.Local).AddTicks(5637),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Api",
                             IsActive = true,
@@ -405,8 +417,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("65578ca5-876b-49f0-b1e8-7f88960991d1"),
-                            CreatedDate = new DateTime(2023, 4, 30, 19, 6, 37, 872, DateTimeKind.Local).AddTicks(9494),
+                            UserGuid = new Guid("c47757a2-bdd4-4700-be7e-d36710f38efc"),
+                            CreatedDate = new DateTime(2023, 8, 31, 18, 47, 41, 670, DateTimeKind.Local).AddTicks(2321),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Admin",
                             IsActive = true,
@@ -421,10 +433,10 @@ namespace DeviceMonnitorAPI.Migrations
             modelBuilder.Entity("DeviceParamName", b =>
                 {
                     b.Property<Guid>("DevicesDeviceGuid")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ParamNamesId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uuid");
 
                     b.HasKey("DevicesDeviceGuid", "ParamNamesId");
 
@@ -530,10 +542,18 @@ namespace DeviceMonnitorAPI.Migrations
             modelBuilder.Entity("DeviceMonnitorAPI.DBModels.DeviceUser", b =>
                 {
                     b.HasOne("DeviceMonnitorAPI.DBModels.Device", null)
+                        .WithMany("DeviceUsers")
+                        .HasForeignKey("DeviceGuid");
+
+                    b.HasOne("DeviceMonnitorAPI.DBModels.Device", null)
                         .WithMany()
                         .HasForeignKey("DevicesDeviceGuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("DeviceMonnitorAPI.DBModels.User", null)
+                        .WithMany("DeviceUsers")
+                        .HasForeignKey("UserGuid");
 
                     b.HasOne("DeviceMonnitorAPI.DBModels.User", null)
                         .WithMany()
@@ -564,6 +584,8 @@ namespace DeviceMonnitorAPI.Migrations
                     b.Navigation("DevicesConfigItem");
 
                     b.Navigation("DevicesData");
+
+                    b.Navigation("DeviceUsers");
                 });
 
             modelBuilder.Entity("DeviceMonnitorAPI.DBModels.DeviceData", b =>
@@ -577,6 +599,11 @@ namespace DeviceMonnitorAPI.Migrations
                     b.Navigation("DataDOs");
 
                     b.Navigation("DataMetadatas");
+                });
+
+            modelBuilder.Entity("DeviceMonnitorAPI.DBModels.User", b =>
+                {
+                    b.Navigation("DeviceUsers");
                 });
 #pragma warning restore 612, 618
         }
