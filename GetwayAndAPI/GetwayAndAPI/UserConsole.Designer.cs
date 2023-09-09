@@ -121,6 +121,7 @@ namespace GetwayAndAPI
             // 
             this.Role.HeaderText = "Права";
             this.Role.Items.AddRange(new object[] {
+            "Device",
             "Admin",
             "User",
             "ApiAdmin"});

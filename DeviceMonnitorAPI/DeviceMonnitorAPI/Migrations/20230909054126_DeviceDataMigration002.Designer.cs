@@ -3,15 +3,17 @@ using System;
 using DeviceMonnitorAPI.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DeviceMonnitorAPI.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230909054126_DeviceDataMigration002")]
+    partial class DeviceDataMigration002
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -404,8 +406,8 @@ namespace DeviceMonnitorAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserGuid = new Guid("94a0bb8b-2126-4041-8dba-1e4d520c9b44"),
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 15, 4, 339, DateTimeKind.Local).AddTicks(297),
+                            UserGuid = new Guid("08bfcf4d-2d41-4d53-94dd-43324dbce909"),
+                            CreatedDate = new DateTime(2023, 9, 9, 10, 41, 26, 579, DateTimeKind.Local).AddTicks(6744),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Api",
                             IsActive = true,
@@ -417,8 +419,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("3f4a6a68-90da-4ea3-8439-fa4412fd9020"),
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 15, 4, 339, DateTimeKind.Local).AddTicks(6776),
+                            UserGuid = new Guid("179355a3-df4c-4f81-906b-508bbf4f124c"),
+                            CreatedDate = new DateTime(2023, 9, 9, 10, 41, 26, 580, DateTimeKind.Local).AddTicks(4323),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Admin",
                             IsActive = true,
@@ -430,8 +432,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("eebe69d7-d25f-4f73-9cc9-b8ded86151b8"),
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 15, 4, 339, DateTimeKind.Local).AddTicks(6789),
+                            UserGuid = new Guid("72fc7999-64a8-4864-9745-1794f9edfb9d"),
+                            CreatedDate = new DateTime(2023, 9, 9, 10, 41, 26, 580, DateTimeKind.Local).AddTicks(4353),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Device",
                             IsActive = true,
@@ -441,79 +443,6 @@ namespace DeviceMonnitorAPI.Migrations
                             TokenExpire = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Username = "device"
                         });
-                });
-
-            modelBuilder.Entity("DeviceMonnitorAPI.DBModels.WeatherDeviceData", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<double>("Aqi")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Co")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Co2")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("DeviceDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("DeviceGuid")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("EditedDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<double>("Humadity")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Pm1")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Pm10")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Pm2_5")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Rain")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("SandElectric")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("SandHumadity")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("SandSalt")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("SandSaltElectric")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("SandTemperature")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Temperature")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("WindDirection")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("WindSpeed")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeviceGuid");
-
-                    b.ToTable("WeatherDeviceData");
                 });
 
             modelBuilder.Entity("DeviceParamName", b =>
@@ -648,17 +577,6 @@ namespace DeviceMonnitorAPI.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DeviceMonnitorAPI.DBModels.WeatherDeviceData", b =>
-                {
-                    b.HasOne("DeviceMonnitorAPI.DBModels.Device", "Device")
-                        .WithMany("WeatherDevicesData")
-                        .HasForeignKey("DeviceGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Device");
-                });
-
             modelBuilder.Entity("DeviceParamName", b =>
                 {
                     b.HasOne("DeviceMonnitorAPI.DBModels.Device", null)
@@ -683,8 +601,6 @@ namespace DeviceMonnitorAPI.Migrations
                     b.Navigation("DevicesData");
 
                     b.Navigation("DeviceUsers");
-
-                    b.Navigation("WeatherDevicesData");
                 });
 
             modelBuilder.Entity("DeviceMonnitorAPI.DBModels.DeviceData", b =>

@@ -8,8 +8,8 @@ namespace GetwayAndAPI
 {
     class Constants
     {
-        public static readonly string BasURL = "http://api.webscada.uz/api/";
         //public static readonly string BasURL = "http://api.webscada.uz/api/";
+        public static readonly string BasURL = "http://95.130.227.149:8080/api/";
         public static readonly string ApiUser = "apiadmin";
         public static readonly string ApiPass = "@p!Adm!n21U$er00222";
         public static readonly string ChipFile = "auth.chip";

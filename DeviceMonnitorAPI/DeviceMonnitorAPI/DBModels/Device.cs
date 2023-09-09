@@ -24,6 +24,7 @@ namespace DeviceMonnitorAPI.DBModels
         public DateTime EditedDate { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<DeviceData> DevicesData { get; set; }
+        public virtual ICollection<WeatherDeviceData> WeatherDevicesData { get; set; }
         public virtual ICollection<DeviceConfig> DevicesConfig { get; set; }
         public virtual ICollection<DeviceConfigItem> DevicesConfigItem { get; set; }
         public virtual ICollection<ParamName> ParamNames { get; set; }

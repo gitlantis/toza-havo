@@ -12,6 +12,7 @@ namespace DeviceMonnitorAPI.DBModels
         public DbSet<User> Users { get; set; }
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceData> DeviceData { get; set; }
+        public DbSet<WeatherDeviceData> WeatherDeviceData { get; set; }
         public DbSet<DeviceConfig> DeviceConfig { get; set; }
         public DbSet<DeviceConfigItem> DeviceConfigItem { get; set; }
         public DbSet<DataAI> DataAI { get; set; }
@@ -39,7 +40,8 @@ namespace DeviceMonnitorAPI.DBModels
             modelBuilder.Entity<User>().HasKey(u => u.UserGuid).HasName("PK_Users");
             modelBuilder.Entity<User>().HasData(
                 new User {UserGuid=Guid.NewGuid(), FirstName = "Api", LastName = "Admin", Username = "apiadmin", Password = "@p!Adm!n21U$er00222", IsActive = true, Role = "ApiAdmin", CreatedDate = DateTime.Now },
-                new User { UserGuid = Guid.NewGuid(), FirstName = "Admin", LastName = "User", Username = "admin", Password = "@@dm!nU$er", IsActive = true, Role = "Admin", CreatedDate = DateTime.Now }
+                new User { UserGuid = Guid.NewGuid(), FirstName = "Admin", LastName = "User", Username = "admin", Password = "@@dm!nU$er", IsActive = true, Role = "Admin", CreatedDate = DateTime.Now },
+                new User { UserGuid = Guid.NewGuid(), FirstName = "Device", LastName = "User", Username = "device", Password = "_MyP0werfulDev!ce", IsActive = true, Role = "device", CreatedDate = DateTime.Now }
                 );
 
             // Map entities to tables  
@@ -52,9 +54,11 @@ namespace DeviceMonnitorAPI.DBModels
 
             // Map entities to tables  
             modelBuilder.Entity<DeviceData>().ToTable("DeviceData");
+            modelBuilder.Entity<WeatherDeviceData>().ToTable("WeatherDeviceData");
 
             // Configure Primary Keys  
             modelBuilder.Entity<DeviceData>().HasOne(d => d.Device).WithMany(d => d.DevicesData).HasPrincipalKey(ug => ug.DeviceGuid).HasForeignKey(u => u.DeviceGuid).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<WeatherDeviceData>().HasOne(d => d.Device).WithMany(d => d.WeatherDevicesData).HasPrincipalKey(ug => ug.DeviceGuid).HasForeignKey(u => u.DeviceGuid).OnDelete(DeleteBehavior.Cascade);
 
             // Device AI
             modelBuilder.Entity<DataAI>().HasOne(d => d.DeviceData).WithMany(d => d.DataAIs).HasForeignKey(u => u.DataGuid).OnDelete(DeleteBehavior.Cascade);

@@ -41,122 +41,122 @@ namespace DeviceMonnitorAPI.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<Guid?> AddData(DeviceRawData model)
-        {
-            try
-            {
-                var dev = await _deviceService.GetDeviceByGuid(model.DeviceGUID);
-                if (dev == null)
-                {
-                    var devModel = new Device();
-                    devModel.DeviceGuid = model.DeviceGUID;
-                    devModel.Name = model.DeviceGUID.ToString();
-                    devModel.Description = model.DeviceGUID.ToString();
-                    devModel.IsActive = true;
+        //public async Task<Guid?> AddData(DeviceRawData model)
+        //{
+        //    try
+        //    {
+        //        var dev = await _deviceService.GetDeviceByGuid(model.DeviceGUID);
+        //        if (dev == null)
+        //        {
+        //            var devModel = new Device();
+        //            devModel.DeviceGuid = model.DeviceGUID;
+        //            devModel.Name = model.DeviceGUID.ToString();
+        //            devModel.Description = model.DeviceGUID.ToString();
+        //            devModel.IsActive = true;
 
-                    var result = await _deviceService.AddDevice(devModel);
+        //            var result = await _deviceService.AddDevice(devModel);
 
-                    dev.DeviceGuid = result.DeviceGuid;
-                    dev.Name = result.Name;
-                    dev.Description = result.Description;
-                    dev.CreatedDate = result.CreatedDate;
-                    dev.EditedDate = result.EditedDate;
+        //            dev.DeviceGuid = result.DeviceGuid;
+        //            dev.Name = result.Name;
+        //            dev.Description = result.Description;
+        //            dev.CreatedDate = result.CreatedDate;
+        //            dev.EditedDate = result.EditedDate;
 
-                }
+        //        }
 
-                if (dev != null)
-                {
-                    var guid = Guid.NewGuid();
+        //        if (dev != null)
+        //        {
+        //            var guid = Guid.NewGuid();
 
-                    var data = new DeviceData();
-                    var dataAi = new List<DataAI>();
-                    var dataAo = new List<DataAO>();
-                    var dataDi = new List<DataDI>();
-                    var dataDo = new List<DataDO>();
-                    var dataMeta = new List<DataMEATADATA>();
+        //            var data = new DeviceData();
+        //            var dataAi = new List<DataAI>();
+        //            var dataAo = new List<DataAO>();
+        //            var dataDi = new List<DataDI>();
+        //            var dataDo = new List<DataDO>();
+        //            var dataMeta = new List<DataMEATADATA>();
 
-                    data.Id = guid;
-                    data.DeviceGuid = dev.DeviceGuid;
-                    data.CreatedDate = model.DataCreatedTime;
-                    data.EditedDate = DateTime.Now;
-                    await _myDbContext.AddRangeAsync(data);
+        //            data.Id = guid;
+        //            data.DeviceGuid = dev.DeviceGuid;
+        //            data.CreatedDate = model.DataCreatedTime;
+        //            data.EditedDate = DateTime.Now;
+        //            await _myDbContext.AddRangeAsync(data);
 
-                    for (int i = 0; i < model.tData.AI.Count(); i++)
-                    {
-                        dataAi.Add(new DataAI
-                        {
-                            DataGuid = data.Id,
-                            Param = model.tData.AI[i],
-                            CreatedDate = DateTime.Now
-                        });
-                    }
-                    await _myDbContext.AddRangeAsync(dataAi);
+        //            for (int i = 0; i < model.tData.AI.Count(); i++)
+        //            {
+        //                dataAi.Add(new DataAI
+        //                {
+        //                    DataGuid = data.Id,
+        //                    Param = model.tData.AI[i],
+        //                    CreatedDate = DateTime.Now
+        //                });
+        //            }
+        //            await _myDbContext.AddRangeAsync(dataAi);
 
-                    for (int i = 0; i < model.tData.AO.Count(); i++)
-                    {
-                        dataAo.Add(new DataAO
-                        {
-                            DataGuid = data.Id,
-                            Param = model.tData.AO[i],
-                            CreatedDate = DateTime.Now
-                        });
-                    }
-                    await _myDbContext.AddRangeAsync(dataAo);
+        //            for (int i = 0; i < model.tData.AO.Count(); i++)
+        //            {
+        //                dataAo.Add(new DataAO
+        //                {
+        //                    DataGuid = data.Id,
+        //                    Param = model.tData.AO[i],
+        //                    CreatedDate = DateTime.Now
+        //                });
+        //            }
+        //            await _myDbContext.AddRangeAsync(dataAo);
 
-                    for (int i = 0; i < model.tData.DI.Count(); i++)
-                    {
-                        dataDi.Add(new DataDI
-                        {
-                            DataGuid = data.Id,
-                            Param = model.tData.DI[i],
-                            CreatedDate = DateTime.Now
-                        });
-                    }
-                    await _myDbContext.AddRangeAsync(dataDi);
+        //            for (int i = 0; i < model.tData.DI.Count(); i++)
+        //            {
+        //                dataDi.Add(new DataDI
+        //                {
+        //                    DataGuid = data.Id,
+        //                    Param = model.tData.DI[i],
+        //                    CreatedDate = DateTime.Now
+        //                });
+        //            }
+        //            await _myDbContext.AddRangeAsync(dataDi);
 
-                    for (int i = 0; i < model.tData.DI.Count(); i++)
-                    {
-                        dataDo.Add(new DataDO
-                        {
-                            DataGuid = data.Id,
-                            Param = model.tData.DO[i],
-                            CreatedDate = DateTime.Now
-                        });
-                    }
-                    await _myDbContext.AddRangeAsync(dataDo);
+        //            for (int i = 0; i < model.tData.DI.Count(); i++)
+        //            {
+        //                dataDo.Add(new DataDO
+        //                {
+        //                    DataGuid = data.Id,
+        //                    Param = model.tData.DO[i],
+        //                    CreatedDate = DateTime.Now
+        //                });
+        //            }
+        //            await _myDbContext.AddRangeAsync(dataDo);
 
-                    for (int i = 0; i < model.tData.METADATA.Count(); i++)
-                    {
-                        dataMeta.Add(new DataMEATADATA
-                        {
-                            DataGuid = data.Id,
-                            Param = model.tData.METADATA[i],
-                            CreatedDate = DateTime.Now
-                        });
-                    }
+        //            for (int i = 0; i < model.tData.METADATA.Count(); i++)
+        //            {
+        //                dataMeta.Add(new DataMEATADATA
+        //                {
+        //                    DataGuid = data.Id,
+        //                    Param = model.tData.METADATA[i],
+        //                    CreatedDate = DateTime.Now
+        //                });
+        //            }
 
-                    await _myDbContext.AddRangeAsync(dataMeta);
-                    await _myDbContext.SaveChangesAsync();
-                    var device = new Device();
-                    device.DeviceGuid = dev.DeviceGuid;
-                    await this.SetCacheDynamicData(device);
-                    return data.Id;
-                }
-                return null;
+        //            await _myDbContext.AddRangeAsync(dataMeta);
+        //            await _myDbContext.SaveChangesAsync();
+        //            var device = new Device();
+        //            device.DeviceGuid = dev.DeviceGuid;
+        //            await this.SetCacheDynamicData(device);
+        //            return data.Id;
+        //        }
+        //        return null;
 
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return null;
+        //    }
+        //}
 
         public async Task<Guid?> DeleteData(Guid guid)
         {
             try
             {
-                var data = _myDbContext.DeviceData.Where(c => c.Id == guid).FirstOrDefault();
-                _myDbContext.DeviceData.Remove(data);
+                var data = _myDbContext.WeatherDeviceData.Where(c => c.Id == guid).FirstOrDefault();
+                _myDbContext.WeatherDeviceData.Remove(data);
                 await _myDbContext.SaveChangesAsync();
                 return guid;
             }
@@ -170,87 +170,11 @@ namespace DeviceMonnitorAPI.Services
         {
             try
             {
-                var dev = _myDbContext.DeviceData.Where(c => c.DeviceGuid == guid);
+                var dev = _myDbContext.WeatherDeviceData.Where(c => c.DeviceGuid == guid);
                 _myDbContext.RemoveRange(dev);
                 await _myDbContext.SaveChangesAsync();
 
                 return guid;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="userGuid"></param>
-        /// <returns></returns>
-        public async Task<List<DeviceDynamicData>> GetDynamicData(Guid? userGuid)
-        {
-            try
-            {
-                var dynData = new List<DeviceDynamicData>();
-               
-                var devices = await _deviceService.GetDevicesByUser(userGuid);
-
-                foreach (var device in devices)
-                {
-                    var params_ = await _myDbContext.ParamNames.Where(c => c.DeviceGuid == device.DeviceGuid).OrderBy(c => c.CreatedDate).ToListAsync();
-
-                    var data = await _myDbContext.DeviceData
-                        .Where(c => c.DeviceGuid == device.DeviceGuid).OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
-
-                    var rawDataAI = new List<ChildDataWithParam>();
-                    var count = new int[5];
-
-                    var diffMins = 3;
-                    var lastDate = new DateTime();
-                    if (data != null)
-                    {
-                        var ai = new List<string>();
-
-                        diffMins = Convert.ToInt32(TimeSpan.FromTicks(DateTime.Now.Ticks).TotalMinutes - TimeSpan.FromTicks(data.EditedDate.Ticks).TotalMinutes);
-                        lastDate = data.CreatedDate;// $" ({data.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")})";
-
-                        var res = await _myDbContext.DataAI.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                        var par = params_.Where(c => c.NameDomain.ToUpper().Equals("AI")).ToList();
-                        rawDataAI.AddRange(GetChildData(par, res));
-
-                        res = await _myDbContext.DataAO.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                        par = params_.Where(c => c.NameDomain.ToUpper().Equals("AO")).ToList();
-                        rawDataAI.AddRange(GetChildData(par, res));
-
-                        res = await _myDbContext.DataDI.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                        par = params_.Where(c => c.NameDomain.ToUpper().Equals("DI")).ToList();
-                        rawDataAI.AddRange(GetChildData(par, res));
-
-                        res = await _myDbContext.DataDO.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                        par = params_.Where(c => c.NameDomain.ToUpper().Equals("DO")).ToList();
-                        rawDataAI.AddRange(GetChildData(par, res));
-
-                        res = await _myDbContext.DataMEATADATA.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param).ToListAsync();
-                        par = params_.Where(c => c.NameDomain.ToUpper().Equals("METADATA")).ToList();
-                        rawDataAI.AddRange(GetChildData(par, res));
-
-                        count[0] = rawDataAI.Count();
-                    }
-
-                    dynData.Add(
-                        new DeviceDynamicData
-                        {
-                            DeviceGuid = device.DeviceGuid,
-                            Name = device.Name,
-                            LastDataTime = lastDate,
-                            IsWorking = (diffMins < Constants.diffMins && diffMins >= 0) ? true : false,
-                            IsActive = device.IsActive,
-                            RowCount = count.Max(),
-                            AI = rawDataAI.OrderBy(c => c.ParamOrder).ToList(),
-                        });
-                }
-
-                return dynData;
             }
             catch (Exception e)
             {
@@ -270,8 +194,7 @@ namespace DeviceMonnitorAPI.Services
                     var data = _redisCacheService.Get<DeviceDynamicData>(device.DeviceGuid);
                     if (data == null)
                     {
-                        await this.SetCacheDynamicData(device);
-                        data = _redisCacheService.Get<DeviceDynamicData>(device.DeviceGuid);
+                        data = await this.SetCacheDynamicData(device);
                     }
                     dynData.Add(data);
                 }
@@ -302,8 +225,8 @@ namespace DeviceMonnitorAPI.Services
 
                     var params_ = await _myDbContext.ParamNames.Where(c => c.DeviceGuid == device.DeviceGuid).OrderBy(c => c.CreatedDate).ToListAsync();
 
-                    var allData = _myDbContext.DeviceData.Where(c => c.DeviceGuid == guid).Count();
-                    var data = await _myDbContext.DeviceData.Where(c => c.DeviceGuid == guid).OrderByDescending(c => c.CreatedDate).Skip((page - 1) * itemCount).Take(itemCount).ToListAsync();
+                    var allData = _myDbContext.WeatherDeviceData.Where(c => c.DeviceGuid == guid).Count();
+                    var _data = await _myDbContext.WeatherDeviceData.Where(c => c.DeviceGuid == guid).OrderByDescending(c => c.CreatedDate).Skip((page - 1) * itemCount).Take(itemCount).ToListAsync();
 
                     //page count
                     var pages = (decimal)allData / (decimal)itemCount;
@@ -311,35 +234,103 @@ namespace DeviceMonnitorAPI.Services
                     var pagesCount = p == 0 ? pages : ++pages;
                     var allPages = Convert.ToInt32(Math.Truncate(pagesCount));
 
-                    foreach (var dat in data)
+                    foreach (var data in _data)
                     {
-                        var ai = new List<ChildDataWithParam>();
+                        var rawDataAI = new List<ChildDataWithParam>();
 
                         var count = new int[5];
 
                         if (data != null)
                         {
 
-                            var res = await _myDbContext.DataAI.Where(c => c.DataGuid == dat.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                            var par = params_.Where(c => c.NameDomain.ToUpper().Equals("AI")).ToList();
-                            ai.AddRange(GetChildData(par, res));
 
-                            res = await _myDbContext.DataAO.Where(c => c.DataGuid == dat.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                            par = params_.Where(c => c.NameDomain.ToUpper().Equals("AO")).ToList();
-                            ai.AddRange(GetChildData(par, res));
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Co),
+                                Params = data.Co
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Co2),
+                                Params = data.Co2
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Pm1),
+                                Params = data.Pm1
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Pm2_5),
+                                Params = data.Pm2_5
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Pm10),
+                                Params = data.Pm10
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Aqi),
+                                Params = data.Aqi
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Humadity),
+                                Params = data.Humadity
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.SandHumadity),
+                                Params = data.SandHumadity
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Temperature),
+                                Params = data.Temperature
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.SandTemperature),
+                                Params = data.SandTemperature
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.SandElectric),
+                                Params = data.SandElectric
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.SandSalt),
+                                Params = data.SandSalt
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.SandSaltElectric),
+                                Params = data.SandSaltElectric
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.Rain),
+                                Params = data.Rain
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.WindSpeed),
+                                Params = data.WindSpeed
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.WindDirection),
+                                Params = data.WindDirection
+                            });
+                            rawDataAI.Add(new ChildDataWithParam
+                            {
+                                ParamName = nameof(WeatherDeviceData.DeviceDate),
+                                Params = data.DeviceDate
+                            });
 
-                            res = await _myDbContext.DataDI.Where(c => c.DataGuid == dat.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                            par = params_.Where(c => c.NameDomain.ToUpper().Equals("DI")).ToList();
-                            ai.AddRange(GetChildData(par, res));
-
-                            res = await _myDbContext.DataDO.Where(c => c.DataGuid == dat.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                            par = params_.Where(c => c.NameDomain.ToUpper().Equals("DO")).ToList();
-                            ai.AddRange(GetChildData(par, res));
-
-                            var metares = await _myDbContext.DataMEATADATA.Where(c => c.DataGuid == dat.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param).ToListAsync();
-                            par = params_.Where(c => c.NameDomain.ToUpper().Equals("METADATA")).ToList();
-                            ai.AddRange(GetChildData(par, res));
-                            count[0] = ai.Count();
+                            count[0] = rawDataAI.Count();
                         }
 
                         archData.Add(
@@ -352,8 +343,8 @@ namespace DeviceMonnitorAPI.Services
                                    ItemCount = itemCount,
                                    PageCount = allPages,
                                    RowCount = count.Max(),
-                                   CreatedDate = dat.CreatedDate,
-                                   AI = ai.OrderBy(c => c.ParamOrder).ToList(),
+                                   CreatedDate = data.CreatedDate,
+                                   AI = rawDataAI.OrderBy(c => c.ParamOrder).ToList(),
                                });
                     }
                 }
@@ -479,7 +470,7 @@ namespace DeviceMonnitorAPI.Services
 
                 var params_ = await _myDbContext.ParamNames.Where(c => c.DeviceGuid == device.DeviceGuid).OrderBy(c => c.CreatedDate).ToListAsync();
 
-                var data = await _myDbContext.DeviceData
+                var data = await _myDbContext.WeatherDeviceData
                     .Where(c => c.DeviceGuid == device.DeviceGuid).OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
 
                 var rawDataAI = new List<ChildDataWithParam>();
@@ -487,32 +478,103 @@ namespace DeviceMonnitorAPI.Services
 
                 var diffMins = 3;
                 var lastDate = new DateTime();
+
                 if (data != null)
                 {
-                    var ai = new List<string>();
+                    //var ai = new List<string>();
 
                     diffMins = Convert.ToInt32(TimeSpan.FromTicks(DateTime.Now.Ticks).TotalMinutes - TimeSpan.FromTicks(data.EditedDate.Ticks).TotalMinutes);
-                    lastDate = data.CreatedDate;// $" ({data.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")})";
+                    //lastDate = data.CreatedDate;// $" ({data.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")})";
 
-                    var res = await _myDbContext.DataAI.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                    var par = params_.Where(c => c.NameDomain.ToUpper().Equals("AI")).ToList();
-                    rawDataAI.AddRange(GetChildData(par, res));
+                    //var res = await _myDbContext.DataAI.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
+                    //var par = params_.Where(c => c.NameDomain.ToUpper().Equals("AI")).ToList();
+                    //rawDataAI.AddRange(GetChildData(par, res));
 
-                    res = await _myDbContext.DataAO.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                    par = params_.Where(c => c.NameDomain.ToUpper().Equals("AO")).ToList();
-                    rawDataAI.AddRange(GetChildData(par, res));
-
-                    res = await _myDbContext.DataDI.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                    par = params_.Where(c => c.NameDomain.ToUpper().Equals("DI")).ToList();
-                    rawDataAI.AddRange(GetChildData(par, res));
-
-                    res = await _myDbContext.DataDO.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                    par = params_.Where(c => c.NameDomain.ToUpper().Equals("DO")).ToList();
-                    rawDataAI.AddRange(GetChildData(par, res));
-
-                    res = await _myDbContext.DataMEATADATA.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param).ToListAsync();
-                    par = params_.Where(c => c.NameDomain.ToUpper().Equals("METADATA")).ToList();
-                    rawDataAI.AddRange(GetChildData(par, res));
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Co),
+                        Params = data.Co
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Co2),
+                        Params = data.Co2
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Pm1),
+                        Params = data.Pm1
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Pm2_5),
+                        Params = data.Pm2_5
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Pm10),
+                        Params = data.Pm10
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Aqi),
+                        Params = data.Aqi
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Humadity ),
+                        Params = data.Humadity 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.SandHumadity ),
+                        Params = data.SandHumadity 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Temperature ),
+                        Params = data.Temperature 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.SandTemperature ),
+                        Params = data.SandTemperature 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.SandElectric ),
+                        Params = data.SandElectric 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.SandSalt ),
+                        Params = data.SandSalt 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.SandSaltElectric),
+                        Params = data.SandSaltElectric
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.Rain ),
+                        Params = data.Rain 
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.WindSpeed),
+                        Params = data.WindSpeed
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.WindDirection),
+                        Params = data.WindDirection
+                    });
+                    rawDataAI.Add(new ChildDataWithParam
+                    {
+                        ParamName = nameof(WeatherDeviceData.DeviceDate),
+                        Params = data.DeviceDate
+                    });
 
                     count[0] = rawDataAI.Count();
                 }

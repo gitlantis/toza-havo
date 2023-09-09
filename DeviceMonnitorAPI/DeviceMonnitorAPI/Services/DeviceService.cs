@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -549,5 +550,54 @@ namespace DeviceMonnitorAPI.Services
             }
         }
 
+        public async Task<Guid?> PostData(PostDataModel model)
+        {
+            try
+            {
+                var user = await _myDbContext.Users.Where(c => c.Password == model.secret).FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    Guid guid = Guid.NewGuid();
+                    DateTime date = DateTime.Now;
+
+                    var deviceData = new WeatherDeviceData
+                    {
+                        Id = guid,
+                        DeviceGuid = Guid.Parse(model.dev_guid),
+                        Co = model.co,
+                        Co2 = model.co2,
+                        Pm1 = model.pm1,
+                        Pm2_5 = model.pm2_5,
+                        Pm10 = model.pm10,
+                        Aqi = model.aqi,
+                        Humadity = model.hum,
+                        SandHumadity = model.sand_hum,
+                        Temperature = model.temp,
+                        SandTemperature = model.sand_temp,
+                        SandElectric = model.sand_elec,
+                        SandSalt = model.sand_salt,
+                        SandSaltElectric = model.sand_selec,
+                        Rain = model.rain,
+                        WindSpeed = model.wind_s,
+                        WindDirection = model.wind_d,
+                        DeviceDate = model.date ?? DateTime.Now,
+                        CreatedDate = date,
+                        EditedDate = date
+                    };
+
+                    await _myDbContext.AddAsync(deviceData);
+                    await _myDbContext.SaveChangesAsync();
+
+                    return guid;
+                }
+                return null;
+        }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+}
     }
 }

@@ -3,15 +3,17 @@ using System;
 using DeviceMonnitorAPI.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DeviceMonnitorAPI.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230909054722_DeviceDataMigration003")]
+    partial class DeviceDataMigration003
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -404,8 +406,8 @@ namespace DeviceMonnitorAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserGuid = new Guid("94a0bb8b-2126-4041-8dba-1e4d520c9b44"),
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 15, 4, 339, DateTimeKind.Local).AddTicks(297),
+                            UserGuid = new Guid("4da741d4-7e8f-4785-9a2f-4e2997222cd3"),
+                            CreatedDate = new DateTime(2023, 9, 9, 10, 47, 22, 311, DateTimeKind.Local).AddTicks(9905),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Api",
                             IsActive = true,
@@ -417,8 +419,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("3f4a6a68-90da-4ea3-8439-fa4412fd9020"),
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 15, 4, 339, DateTimeKind.Local).AddTicks(6776),
+                            UserGuid = new Guid("2d868e95-1d1a-44e6-84cb-8e50973fb4ab"),
+                            CreatedDate = new DateTime(2023, 9, 9, 10, 47, 22, 312, DateTimeKind.Local).AddTicks(6526),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Admin",
                             IsActive = true,
@@ -430,8 +432,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("eebe69d7-d25f-4f73-9cc9-b8ded86151b8"),
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 15, 4, 339, DateTimeKind.Local).AddTicks(6789),
+                            UserGuid = new Guid("3d596906-359a-4780-b8f7-4cbf69f78f1f"),
+                            CreatedDate = new DateTime(2023, 9, 9, 10, 47, 22, 312, DateTimeKind.Local).AddTicks(6539),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Device",
                             IsActive = true,
@@ -466,9 +468,6 @@ namespace DeviceMonnitorAPI.Migrations
 
                     b.Property<Guid>("DeviceGuid")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("EditedDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<double>("Humadity")
                         .HasColumnType("double precision");

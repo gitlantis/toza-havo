@@ -49,13 +49,13 @@ namespace DeviceMonnitorAPI.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "ApiAdmin, Admin")]
-        [HttpPost]
-        public async Task<IActionResult> AddData([FromBody] DeviceRawData model)
-        {
-            var guid = await _deviceDataService.AddData(model);
-            return Ok(guid);
-        }
+        //[Authorize(Roles = "ApiAdmin, Admin")]
+        //[HttpPost]
+        //public async Task<IActionResult> AddData([FromBody] DeviceRawData model)
+        //{
+        //    var guid = await _deviceDataService.AddData(model);
+        //    return Ok(guid);
+        //}
 
         [Authorize(Roles = "ApiAdmin, Admin")]
         [HttpPost]
