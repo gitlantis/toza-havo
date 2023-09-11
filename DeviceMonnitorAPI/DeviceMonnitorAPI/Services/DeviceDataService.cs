@@ -9,7 +9,10 @@ using Microsoft.EntityFrameworkCore;
 using ServiceStack.Caching;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -221,8 +224,6 @@ namespace DeviceMonnitorAPI.Services
 
                 if (device != null)
                 {
-                    var paramData = new List<dynamic>();
-
                     var params_ = await _myDbContext.ParamNames.Where(c => c.DeviceGuid == device.DeviceGuid).OrderBy(c => c.CreatedDate).ToListAsync();
 
                     var allData = _myDbContext.WeatherDeviceData.Where(c => c.DeviceGuid == guid).Count();
@@ -242,94 +243,7 @@ namespace DeviceMonnitorAPI.Services
 
                         if (data != null)
                         {
-
-
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Co),
-                                Params = data.Co
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Co2),
-                                Params = data.Co2
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Pm1),
-                                Params = data.Pm1
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Pm2_5),
-                                Params = data.Pm2_5
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Pm10),
-                                Params = data.Pm10
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Aqi),
-                                Params = data.Aqi
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Humadity),
-                                Params = data.Humadity
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.SandHumadity),
-                                Params = data.SandHumadity
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Temperature),
-                                Params = data.Temperature
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.SandTemperature),
-                                Params = data.SandTemperature
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.SandElectric),
-                                Params = data.SandElectric
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.SandSalt),
-                                Params = data.SandSalt
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.SandSaltElectric),
-                                Params = data.SandSaltElectric
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.Rain),
-                                Params = data.Rain
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.WindSpeed),
-                                Params = data.WindSpeed
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.WindDirection),
-                                Params = data.WindDirection
-                            });
-                            rawDataAI.Add(new ChildDataWithParam
-                            {
-                                ParamName = nameof(WeatherDeviceData.DeviceDate),
-                                Params = data.DeviceDate
-                            });
-
+                            rawDataAI = WeatherMass(data);
                             count[0] = rawDataAI.Count();
                         }
 
@@ -467,115 +381,22 @@ namespace DeviceMonnitorAPI.Services
             try
             {
                 var dynData = new DeviceDynamicData();
-
+                var wdata = new WeatherDeviceData();
                 var params_ = await _myDbContext.ParamNames.Where(c => c.DeviceGuid == device.DeviceGuid).OrderBy(c => c.CreatedDate).ToListAsync();
 
                 var data = await _myDbContext.WeatherDeviceData
                     .Where(c => c.DeviceGuid == device.DeviceGuid).OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
 
-                var rawDataAI = new List<ChildDataWithParam>();
                 var count = new int[5];
 
                 var diffMins = 3;
                 var lastDate = new DateTime();
-
+                var rawDataAI = new List<ChildDataWithParam>();
                 if (data != null)
                 {
-                    //var ai = new List<string>();
-
                     diffMins = Convert.ToInt32(TimeSpan.FromTicks(DateTime.Now.Ticks).TotalMinutes - TimeSpan.FromTicks(data.EditedDate.Ticks).TotalMinutes);
-                    //lastDate = data.CreatedDate;// $" ({data.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")})";
 
-                    //var res = await _myDbContext.DataAI.Where(c => c.DataGuid == data.Id).OrderBy(o => o.CreatedDate).Select(s => s.Param.ToString("#0.##")).ToListAsync();
-                    //var par = params_.Where(c => c.NameDomain.ToUpper().Equals("AI")).ToList();
-                    //rawDataAI.AddRange(GetChildData(par, res));
-
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Co),
-                        Params = data.Co
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Co2),
-                        Params = data.Co2
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Pm1),
-                        Params = data.Pm1
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Pm2_5),
-                        Params = data.Pm2_5
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Pm10),
-                        Params = data.Pm10
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Aqi),
-                        Params = data.Aqi
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Humadity ),
-                        Params = data.Humadity 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.SandHumadity ),
-                        Params = data.SandHumadity 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Temperature ),
-                        Params = data.Temperature 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.SandTemperature ),
-                        Params = data.SandTemperature 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.SandElectric ),
-                        Params = data.SandElectric 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.SandSalt ),
-                        Params = data.SandSalt 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.SandSaltElectric),
-                        Params = data.SandSaltElectric
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.Rain ),
-                        Params = data.Rain 
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.WindSpeed),
-                        Params = data.WindSpeed
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.WindDirection),
-                        Params = data.WindDirection
-                    });
-                    rawDataAI.Add(new ChildDataWithParam
-                    {
-                        ParamName = nameof(WeatherDeviceData.DeviceDate),
-                        Params = data.DeviceDate
-                    });
-
+                    rawDataAI = WeatherMass(data);
                     count[0] = rawDataAI.Count();
                 }
 
@@ -598,6 +419,210 @@ namespace DeviceMonnitorAPI.Services
             {
                 return null;
             }
+        }
+
+        private static List<ChildDataWithParam>  WeatherMass(WeatherDeviceData data)
+        {
+            var rawDataAI = new List<ChildDataWithParam>();
+            if (data.A00 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A00)).Name,
+                    Params = data.A00
+                });
+            if (data.A01 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A01)).Name,
+                    Params = data.A01
+                });
+            if (data.A02 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A02)).Name,
+                    Params = data.A02
+                });
+            if (data.A03 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A03)).Name,
+                    Params = data.A03
+                });
+            if (data.A04 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A04)).Name,
+                    Params = data.A04
+                });
+            if (data.A05 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A05)).Name,
+                    Params = data.A05
+                });
+            if (data.A06 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A06)).Name,
+                    Params = data.A06
+                });
+            if (data.A07 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A07)).Name,
+                    Params = data.A07
+                });
+            if (data.A08 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A08)).Name,
+                    Params = data.A08
+                });
+            if (data.A09 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A09)).Name,
+                    Params = data.A09
+                });
+            if (data.A10 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A10)).Name,
+                    Params = data.A10
+                });
+            if (data.A11 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A11)).Name,
+                    Params = data.A11
+                });
+            if (data.A12 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A12)).Name,
+                    Params = data.A12
+                });
+            if (data.A13 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A13)).Name,
+                    Params = data.A13
+                });
+            if (data.A14 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A14)).Name,
+                    Params = data.A14
+                });
+            if (data.A15 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A15)).Name,
+                    Params = data.A15
+                });
+            if (data.A16 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A16)).Name,
+                    Params = data.A16
+                });
+            if (data.A17 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A17)).Name,
+                    Params = data.A17
+                });
+            if (data.A18 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A18)).Name,
+                    Params = data.A18
+                });
+            if (data.A19 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A19)).Name,
+                    Params = data.A19
+                });
+            if (data.A20 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A20)).Name,
+                    Params = data.A20
+                });
+            if (data.A21 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A21)).Name,
+                    Params = data.A21
+                });
+            if (data.A22 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A22)).Name,
+                    Params = data.A22
+                });
+            if (data.A23 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A23)).Name,
+                    Params = data.A23
+                });
+            if (data.A24 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A24)).Name,
+                    Params = data.A24
+                });
+            if (data.A25 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A25)).Name,
+                    Params = data.A25
+                });
+            if (data.A26 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A26)).Name,
+                    Params = data.A26
+                });
+            if (data.A27 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A27)).Name,
+                    Params = data.A27
+                });
+            if (data.A28 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A28)).Name,
+                    Params = data.A28
+                });
+            if (data.A29 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A29)).Name,
+                    Params = data.A29
+                });
+            if (data.A30 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A30)).Name,
+                    Params = data.A30
+                });
+            if (data.A31 != null)
+                rawDataAI.Add(new ChildDataWithParam
+                {
+                    ParamName = typeof(WeatherDeviceData).GetProperty(nameof(WeatherDeviceData.A31)).Name,
+                    Params = data.A31
+                });
+
+            rawDataAI.Add(new ChildDataWithParam
+            {
+                ParamName = nameof(WeatherDeviceData.CreatedDate),
+                Params = data.CreatedDate
+            });
+            return rawDataAI;
         }
     }
 }

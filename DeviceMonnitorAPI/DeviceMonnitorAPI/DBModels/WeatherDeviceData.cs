@@ -1,6 +1,7 @@
 ﻿using ServiceStack.DataAnnotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -14,23 +15,39 @@ namespace DeviceMonnitorAPI.DBModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
         public Guid DeviceGuid { get; set; }
-        public double Co { get; set; }
-        public double Co2 { get; set; }
-        public double Pm1 { get; set; }
-        public double Pm2_5 { get; set; }
-        public double Pm10 { get; set; }
-        public double Aqi { get; set; }
-        public double Humadity { get; set; }
-        public double SandHumadity { get; set; }
-        public double Temperature { get; set; }
-        public double SandTemperature { get; set; }
-        public double SandElectric { get; set; }
-        public double SandSalt { get; set; }
-        public double SandSaltElectric { get; set; }
-        public double Rain { get; set; }
-        public double WindSpeed { get; set; }
-        public double WindDirection { get; set; }
-
+        [DisplayName("A 00")]
+        public double? A00 { get; set; }
+        public double? A01 { get; set; }
+        public double? A02 { get; set; }
+        public double? A03 { get; set; }
+        public double? A04 { get; set; }
+        public double? A05 { get; set; }
+        public double? A06 { get; set; }
+        public double? A07 { get; set; }
+        public double? A08 { get; set; }
+        public double? A09 { get; set; }
+        public double? A10 { get; set; }
+        public double? A11 { get; set; }
+        public double? A12 { get; set; }
+        public double? A13 { get; set; }
+        public double? A14 { get; set; }
+        public double? A15 { get; set; }
+        public double? A16 { get; set; }
+        public double? A17 { get; set; }
+        public double? A18 { get; set; }
+        public double? A19 { get; set; }
+        public double? A20 { get; set; }
+        public double? A21 { get; set; }
+        public double? A22 { get; set; }
+        public double? A23 { get; set; }
+        public double? A24 { get; set; }
+        public double? A25 { get; set; }
+        public double? A26 { get; set; }
+        public double? A27 { get; set; }
+        public double? A28 { get; set; }
+        public double? A29 { get; set; }
+        public double? A30 { get; set; }
+        public double? A31 { get; set; }
         public DateTime DeviceDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EditedDate { get; set; }

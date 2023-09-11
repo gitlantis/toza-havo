@@ -3,15 +3,17 @@ using System;
 using DeviceMonnitorAPI.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DeviceMonnitorAPI.Migrations
 {
     [DbContext(typeof(MyDBContext))]
-    partial class MyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230910165332_UpdateMigrateData001")]
+    partial class UpdateMigrateData001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -404,8 +406,8 @@ namespace DeviceMonnitorAPI.Migrations
                     b.HasData(
                         new
                         {
-                            UserGuid = new Guid("63cf7bed-3dd7-4e1c-aa9c-6a1a96aed3b7"),
-                            CreatedDate = new DateTime(2023, 9, 11, 8, 29, 50, 864, DateTimeKind.Local).AddTicks(8373),
+                            UserGuid = new Guid("3df13295-f052-4b40-862c-662f6e934ec3"),
+                            CreatedDate = new DateTime(2023, 9, 10, 21, 53, 31, 757, DateTimeKind.Local).AddTicks(5582),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Api",
                             IsActive = true,
@@ -417,8 +419,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("4d2e56a3-a59b-45fc-9b9c-780c27cae7e5"),
-                            CreatedDate = new DateTime(2023, 9, 11, 8, 29, 50, 865, DateTimeKind.Local).AddTicks(5135),
+                            UserGuid = new Guid("92e9fdf5-8712-408f-bea6-5a514d9d02f9"),
+                            CreatedDate = new DateTime(2023, 9, 10, 21, 53, 31, 758, DateTimeKind.Local).AddTicks(1544),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Admin",
                             IsActive = true,
@@ -430,8 +432,8 @@ namespace DeviceMonnitorAPI.Migrations
                         },
                         new
                         {
-                            UserGuid = new Guid("6b5ea954-5e54-4067-9316-159ebf54c39a"),
-                            CreatedDate = new DateTime(2023, 9, 11, 8, 29, 50, 865, DateTimeKind.Local).AddTicks(5151),
+                            UserGuid = new Guid("a594e337-c6a6-448a-bc0d-ba24ec5843ed"),
+                            CreatedDate = new DateTime(2023, 9, 10, 21, 53, 31, 758, DateTimeKind.Local).AddTicks(1557),
                             EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             FirstName = "Device",
                             IsActive = true,
@@ -449,100 +451,100 @@ namespace DeviceMonnitorAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<double?>("A00")
+                    b.Property<double>("A00")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A01")
+                    b.Property<double>("A01")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A02")
+                    b.Property<double>("A02")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A03")
+                    b.Property<double>("A03")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A04")
+                    b.Property<double>("A04")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A05")
+                    b.Property<double>("A05")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A06")
+                    b.Property<double>("A06")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A07")
+                    b.Property<double>("A07")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A08")
+                    b.Property<double>("A08")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A09")
+                    b.Property<double>("A09")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A10")
+                    b.Property<double>("A10")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A11")
+                    b.Property<double>("A11")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A12")
+                    b.Property<double>("A12")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A13")
+                    b.Property<double>("A13")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A14")
+                    b.Property<double>("A14")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A15")
+                    b.Property<double>("A15")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A16")
+                    b.Property<double>("A16")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A17")
+                    b.Property<double>("A17")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A18")
+                    b.Property<double>("A18")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A19")
+                    b.Property<double>("A19")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A20")
+                    b.Property<double>("A20")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A21")
+                    b.Property<double>("A21")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A22")
+                    b.Property<double>("A22")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A23")
+                    b.Property<double>("A23")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A24")
+                    b.Property<double>("A24")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A25")
+                    b.Property<double>("A25")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A26")
+                    b.Property<double>("A26")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A27")
+                    b.Property<double>("A27")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A28")
+                    b.Property<double>("A28")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A29")
+                    b.Property<double>("A29")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A30")
+                    b.Property<double>("A30")
                         .HasColumnType("double precision");
 
-                    b.Property<double?>("A31")
+                    b.Property<double>("A31")
                         .HasColumnType("double precision");
 
                     b.Property<DateTime>("CreatedDate")

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -155,57 +156,54 @@ namespace DeviceMonnitorAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Post()
         {
-            string _secret, _dev_guid;
-            double _co,_co2,_pm1,_pm2_5,_pm10,_aqi,_hum,_sand_hum,_temp,_sand_temp,_sand_elec,_sand_salt,_sand_selec,_rain,_wind_s,_wind_d;
-            DateTime _date;
-
-            _secret = HttpContext.Request.Query["secret"].ToString();
-            _dev_guid = HttpContext.Request.Query["dev_guid"].ToString();
-            double.TryParse(HttpContext.Request.Query["co"].ToString(), out _co);
-            double.TryParse(HttpContext.Request.Query["co2"].ToString(), out _co2);
-            double.TryParse(HttpContext.Request.Query["pm1"].ToString(), out _pm1);
-            double.TryParse(HttpContext.Request.Query["pm2_5"].ToString(), out _pm2_5);
-            double.TryParse(HttpContext.Request.Query["pm10"].ToString(), out _pm10);
-            double.TryParse(HttpContext.Request.Query["aqi"].ToString(), out _aqi);
-            double.TryParse(HttpContext.Request.Query["hum"].ToString(), out _hum);
-            double.TryParse(HttpContext.Request.Query["sand_hum"].ToString(), out _sand_hum);
-            double.TryParse(HttpContext.Request.Query["temp"].ToString(), out _temp);
-            double.TryParse(HttpContext.Request.Query["sand_temp"].ToString(), out _sand_temp);
-            double.TryParse(HttpContext.Request.Query["sand_elec"].ToString(), out _sand_elec);
-            double.TryParse(HttpContext.Request.Query["sand_salt"].ToString(), out _sand_salt);
-            double.TryParse(HttpContext.Request.Query["sand_selec"].ToString(), out _sand_selec);
-            double.TryParse(HttpContext.Request.Query["rain"].ToString(), out _rain);
-            double.TryParse(HttpContext.Request.Query["wind_s"].ToString(), out _wind_s);
-            double.TryParse(HttpContext.Request.Query["wind_d"].ToString(), out _wind_d);
-            DateTime.TryParse(HttpContext.Request.Query["date"].ToString(), out _date);
-
-            var postData = new PostDataModel
-            {
-                secret = _secret,
-                dev_guid = _dev_guid,
-                co = _co,
-                co2 = _co2,
-                pm1 = _pm1,
-                pm2_5 = _pm2_5,
-                pm10 = _pm10,
-                aqi = _aqi,
-                hum = _hum,
-                sand_hum = _sand_hum,
-                temp = _temp,
-                sand_temp = _sand_temp,
-                sand_elec = _sand_elec,
-                sand_salt = _sand_salt,
-                sand_selec = _sand_selec,
-                rain = _rain,
-                wind_s = _wind_s,
-                wind_d = _wind_d,
-                date = _date
-            };
+            var postData = new PostDataModel();
+            postData.secret = HttpContext.Request.Query[nameof(postData.secret)].ToString();
+            postData.dev_guid = HttpContext.Request.Query[nameof(postData.dev_guid)].ToString();
+            postData.A00 = getProp(postData, nameof(postData.A00));
+            postData.A01 = getProp(postData, nameof(postData.A01));
+            postData.A02 = getProp(postData, nameof(postData.A02));
+            postData.A03 = getProp(postData, nameof(postData.A03));
+            postData.A04 = getProp(postData, nameof(postData.A04));
+            postData.A05 = getProp(postData, nameof(postData.A05));
+            postData.A06 = getProp(postData, nameof(postData.A06));
+            postData.A07 = getProp(postData, nameof(postData.A07));
+            postData.A08 = getProp(postData, nameof(postData.A08));
+            postData.A09 = getProp(postData, nameof(postData.A09));
+            postData.A10 = getProp(postData, nameof(postData.A10));
+            postData.A11 = getProp(postData, nameof(postData.A11));
+            postData.A12 = getProp(postData, nameof(postData.A12));
+            postData.A13 = getProp(postData, nameof(postData.A13));
+            postData.A14 = getProp(postData, nameof(postData.A14));
+            postData.A15 = getProp(postData, nameof(postData.A15));
+            postData.A16 = getProp(postData, nameof(postData.A16));
+            postData.A17 = getProp(postData, nameof(postData.A17));
+            postData.A18 = getProp(postData, nameof(postData.A18));
+            postData.A19 = getProp(postData, nameof(postData.A19));
+            postData.A20 = getProp(postData, nameof(postData.A20));
+            postData.A21 = getProp(postData, nameof(postData.A21));
+            postData.A22 = getProp(postData, nameof(postData.A22));
+            postData.A23 = getProp(postData, nameof(postData.A23));
+            postData.A24 = getProp(postData, nameof(postData.A24));
+            postData.A25 = getProp(postData, nameof(postData.A25));
+            postData.A26 = getProp(postData, nameof(postData.A26));
+            postData.A27 = getProp(postData, nameof(postData.A27));
+            postData.A28 = getProp(postData, nameof(postData.A28));
+            postData.A29 = getProp(postData, nameof(postData.A29));
+            postData.A30 = getProp(postData, nameof(postData.A30));
+            postData.A31 = getProp(postData, nameof(postData.A31));
+            DateTime.TryParse(HttpContext.Request.Query[nameof(postData.date)].ToString(), out var date);
+            postData.date = date;
 
             var res = await _deviceService.PostData(postData);
 
             return Ok(res);
         }
 
+        private double? getProp(PostDataModel postData, string name)
+        {
+            var val = double.TryParse(HttpContext.Request.Query[name].ToString(), out var dValue);
+            if (val) return dValue;
+            else return null;            
+        }
     }
 }
