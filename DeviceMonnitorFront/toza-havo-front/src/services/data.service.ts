@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Constants } from 'src/constants';
 import { Observable } from 'rxjs';
 import { DynamicData } from 'src/helpers/dynamic-data.model';
-import { DeviceConfig } from 'src/helpers/device-config.model';
-import { DeviceConfigItems } from 'src/helpers/device-config-items';
+import { StationConfig } from 'src/helpers/station-config.model';
+import { StationConfigItems } from 'src/helpers/station-config-items';
 import { BaseService } from './base.service';
 import { UserService } from './user.service';
 import { ToastrService } from 'ngx-toastr';
@@ -21,16 +21,16 @@ export class DataService extends BaseService {
     super(httpClient, router, constants)
   }
 
-  getDevices(): Observable<DynamicData[]> {
-    return this.httpClient.post<DynamicData[]>(this.constants.baseUrl + '/DeviceData/GetDynamicData', "") as Observable<DynamicData[]>
+  getStations(): Observable<DynamicData[]> {
+    return this.httpClient.post<DynamicData[]>(this.constants.baseUrl + '/StationData/GetDynamicData', "") as Observable<DynamicData[]>
   }
 
-  getConfig(guid: string): Observable<Array<DeviceConfigItems>> {
-    return this.httpClient.post<Array<DeviceConfigItems>>(this.constants.baseUrl + '/Device/GetConfigItems', JSON.stringify(guid))
+  getConfig(guid: string): Observable<Array<StationConfigItems>> {
+    return this.httpClient.post<Array<StationConfigItems>>(this.constants.baseUrl + '/Station/GetConfigItems', JSON.stringify(guid))
   }
 
   postConfig(formData: any) {
-    return this.httpClient.post(this.constants.baseUrl + '/Device/UpdateConfigValues', formData).subscribe(
+    return this.httpClient.post(this.constants.baseUrl + '/Station/UpdateConfigValues', formData).subscribe(
       res => {
         this.toastr.success('Configuration saved!', 'Configuration!');
       },
@@ -40,12 +40,12 @@ export class DataService extends BaseService {
   }
 
   getArchive(data: any): Observable<Array<ArchiveData>> {
-    return this.httpClient.post<Array<ArchiveData>>(this.constants.baseUrl + '/DeviceData/GetArchive', JSON.stringify(data))
+    return this.httpClient.post<Array<ArchiveData>>(this.constants.baseUrl + '/StationData/GetArchive', JSON.stringify(data))
   }
 
   toRawArchValue<T extends ArchiveData>(requestData: ArchiveData): ArchiveData {
     return {
-      deviceGuid: requestData.deviceGuid,
+      stationGuid: requestData.stationGuid,
       name: requestData.name,
       dataCount: requestData.dataCount,
       itemCount: requestData.itemCount,

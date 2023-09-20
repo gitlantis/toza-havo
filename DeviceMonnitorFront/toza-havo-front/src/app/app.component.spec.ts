@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'DeviceMonnitorFront'`, () => {
+  it(`should have as title 'StationMonnitorFront'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('DeviceMonnitorFront');
+    expect(app.title).toEqual('StationMonnitorFront');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('DeviceMonnitorFront app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('StationMonnitorFront app is running!');
   });
 });

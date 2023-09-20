@@ -1,7 +1,7 @@
 import { DataParts } from "./child-data.model"
 
 export class ArchiveData {
-    deviceGuid?: string
+    stationGuid?: string
     name?: string
     dataCount?: number
     itemCount?: number

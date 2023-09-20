@@ -12,7 +12,7 @@ import { DataService } from 'src/services/data.service';
 
 export class ModalArchiveComponent implements OnInit {
   @Input() public guid: any;
-  @Input() public deviceName: any;
+  @Input() public stationName: any;
 
   public archive = new Array<ArchiveData>();
   public params = new ArchiveData();
@@ -36,7 +36,7 @@ export class ModalArchiveComponent implements OnInit {
 
   getArchive(pageNum?: number, itemCount?: number) {
 
-    this.params.deviceGuid = this.guid;
+    this.params.stationGuid = this.guid;
 
     if (itemCount != null)
       this.params.itemCount = +itemCount;

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      {{ guid }} - {{ deviceName }}
+      {{ guid }} - {{ stationName }}
     </h4>
     <button
       type="button"
@@ -26,7 +26,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let item of deviceConfig; let i = index"
+              *ngFor="let item of stationConfig; let i = index"
               class="text-peimary"
             >
               <td style="width: 40%">
@@ -45,7 +45,7 @@
                     type="{{ item?.type }}"
                     name="{{ item.confGuid }}"
                     value="{{ item?.value }}"
-                    ngModel="{{ deviceConfig[i].value }}"
+                    ngModel="{{ stationConfig[i].value }}"
                   />
                 </div>
                 <div *ngIf="item?.value == 'true' || item?.value == 'false'">

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      {{ guid }} - {{ deviceName }}
+      {{ guid }} - {{ stationName }}
     </h4>
     <button
       type="button"
@@ -41,7 +41,7 @@
                     *ngFor="let item of arch.ai; let i = index"
                     class="text-peimary"
                   >
-                    <td>{{ item.paramName }}</td>
+                    <td>{{ item.paramDesc }}</td>
                     <td>{{ item.params }}</td>
                   </tr>
                 </tbody>

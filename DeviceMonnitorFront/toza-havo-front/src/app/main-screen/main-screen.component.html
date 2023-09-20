@@ -10,30 +10,31 @@
 </nav>
 
 <div class="main-screen d-flex">
-  <div *ngFor="let device of devices">
-    <div class="card" [ngClass]="{ 'gray-bg': device.isActive == false }">
+  <div *ngFor="let station of stations">
+    <div class="card" [ngClass]="{ 'gray-bg': station.isActive == false }">
       <div class="card-header">
-        <span>{{ device.name }}</span
-        ><span *ngIf="compareDates(device.lastDataTime); then showDate"></span
+        <span>{{ station.name }}</span
+        ><span *ngIf="compareDates(station.lastDataTime); then showDate"></span
         >&nbsp;&nbsp;&nbsp;&nbsp;<span
-          *ngIf="device.isWorking; then greenBlock; else pinkBlock"
+          *ngIf="station.isWorking; then greenBlock; else pinkBlock"
         ></span>
 
         <ng-template #showDate
           >&nbsp;-&nbsp;{{
-            device.lastDataTime?.toString() + "Z" | date : "yyyy-MM-dd HH:mm:ss"
+            station.lastDataTime?.toString() + "Z"
+              | date : "yyyy-MM-dd HH:mm:ss"
           }}</ng-template
         >
         <div class="d-flex justify-content-end mb-2">
           <button
             class="btn btn-outline-success btn-sm conf-btn"
-            (click)="getConfig(device.deviceGuid, device.name)"
+            (click)="getConfig(station.stationGuid, station.name)"
           >
             Configure</button
           >&nbsp;&nbsp;
           <button
             class="btn btn-outline-primary btn-sm conf-btn"
-            (click)="getArchive(device.deviceGuid, device.name)"
+            (click)="getArchive(station.stationGuid, station.name)"
           >
             Archive
           </button>
@@ -43,11 +44,11 @@
         <blockquote class="blockquote mb-0">
           <nz-collapse>
             <nz-collapse-panel
-              *ngFor="let panel of panels.get(device.deviceGuid)"
+              *ngFor="let panel of panels.get(station.stationGuid)"
               [nzHeader]="panel.name"
               [nzActive]="panel.active"
               [nzDisabled]="panel.disabled"
-              (click)="collapser(device.deviceGuid, panel.id)"
+              (click)="collapser(station.stationGuid, panel.id)"
             >
               <p style="margin: 0">
                 <thead class="thead-light">
@@ -63,7 +64,7 @@
                     *ngFor="let item of panel.values; let i = index"
                     class="text-peimary"
                   >
-                    <td>{{ item.paramName }}</td>
+                    <td>{{ item.paramDesc }}</td>
                     <!-- <td>{{item.paramSubDomain}}</td> -->
                     <td>{{ item.params }}</td>
                   </tr>

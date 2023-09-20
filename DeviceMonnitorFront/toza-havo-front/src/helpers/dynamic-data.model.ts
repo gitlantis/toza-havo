@@ -1,7 +1,7 @@
 import { DataParts } from "./child-data.model"
 
 export class DynamicData {
-    deviceGuid?: string
+    stationGuid?: string
     name?: string
     lastDataTime?: Date
     isWorking?: boolean

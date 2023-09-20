@@ -4,7 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { DataService } from 'src/services/data.service';
 import { ToastrService } from 'ngx-toastr';
-import { DeviceConfigItems } from 'src/helpers/device-config-items';
+import { StationConfigItems } from 'src/helpers/station-config-items';
 
 @Component({
   selector: 'app-modal-content',
@@ -13,9 +13,9 @@ import { DeviceConfigItems } from 'src/helpers/device-config-items';
 })
 export class ModalContentComponent implements OnInit {
   @Input() public guid: any;
-  @Input() public deviceName: any;
+  @Input() public stationName: any;
   myModel: any
-  deviceConfig: Array<DeviceConfigItems> = [];
+  stationConfig: Array<StationConfigItems> = [];
   colNames?: string[];
   pageSize?: number;
   bDate?: string;
@@ -31,8 +31,8 @@ export class ModalContentComponent implements OnInit {
     this.dataService.getConfig(guid)
       .subscribe(
         res => {
-          this.deviceConfig = res as DeviceConfigItems[];
-          console.log(this.deviceConfig)
+          this.stationConfig = res as StationConfigItems[];
+          console.log(this.stationConfig)
         },
         err => {
           this.toastr.error(err.message, 'Config read error!');
@@ -45,10 +45,10 @@ export class ModalContentComponent implements OnInit {
 
   onSubmit(form: any) {
     for (let key in form) {
-      (this.deviceConfig as any).find((c: { confGuid: string; }) => c.confGuid == key).value = String(form[key]);
+      (this.stationConfig as any).find((c: { confGuid: string; }) => c.confGuid == key).value = String(form[key]);
     }
 
-    this.dataService.postConfig(this.deviceConfig)
+    this.dataService.postConfig(this.stationConfig)
   }
 
 }

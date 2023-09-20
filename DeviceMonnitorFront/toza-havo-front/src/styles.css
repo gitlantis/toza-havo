@@ -125,3 +125,23 @@
       font-family: sans-serif,Tahoma;
       font-weight: bold;
     }
+
+    .aqi{
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: .9;
+      margin: 0;
+    }
+
+    .aqi-value{
+      color: #fff;
+      font-size: 24px;
+      font-weight: 700;
+      opacity: .9;
+      margin: 0;
+    }
+    .aqi-desc{
+      font-size: 12px;
+      font-weight: 400;
+    }

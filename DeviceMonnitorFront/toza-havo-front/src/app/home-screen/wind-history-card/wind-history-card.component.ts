@@ -48,7 +48,6 @@ export class WindHistoryCardComponent {
 
   plotLine() {
     this.lineOptions = {
-
       title: {
         text: '',
       },

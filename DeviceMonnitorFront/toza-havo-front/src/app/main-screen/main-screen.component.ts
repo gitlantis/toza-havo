@@ -31,17 +31,17 @@ export class MainScreenComponent implements OnInit {
   constructor(private authService: AuthService, private dataService: DataService, private modalService: NgbModal,
     private userService: UserService, private router: Router) { }
 
-  devices: DynamicData[] | undefined;
+  stations: DynamicData[] | undefined;
   datacount = 0;
   ngOnInit(): void {
     this.oldPanels
     this.panels = new Map<string, Array<PanelData>>()
 
     this.userName = (UserService.getUsername() as string);
-    this.getDevices();
+    this.getStations();
 
     // interval(3000).subscribe(a => {
-    //   this.getDevices();
+    //   this.getStations();
     // });
   }
 
@@ -49,28 +49,28 @@ export class MainScreenComponent implements OnInit {
     this.authService.logout();
   }
 
-  getDevices() {
+  getStations() {
 
     this.oldPanels = this.panels
     var tmpPanels = new Map<string, Array<PanelData>>()
 
-    this.dataService.getDevices().subscribe(res => {
-      this.devices = res as DynamicData[];
-      this.devices.forEach(element => {
+    this.dataService.getStations().subscribe(res => {
+      this.stations = res as DynamicData[];
+      this.stations.forEach(element => {
 
         var arr = new Array<PanelData>();
-        var deviceGuid = element.deviceGuid as string;
+        var stationGuid = element.stationGuid as string;
 
         var tmp = new PanelData;
-        tmp.deviceGuid = deviceGuid
+        tmp.stationGuid = stationGuid
         if (this.oldPanels.size > 0)
-          tmp.active = this.oldPanels.get(deviceGuid)![0].active
+          tmp.active = this.oldPanels.get(stationGuid)![0].active
         tmp.id = 0;
         tmp.name = "Data";
         tmp.values = element.ai;
         arr.push(tmp)
 
-        tmpPanels.set(element.deviceGuid as string, arr);
+        tmpPanels.set(element.stationGuid as string, arr);
       });
 
       this.panels = tmpPanels;
@@ -80,26 +80,26 @@ export class MainScreenComponent implements OnInit {
       });
   }
 
-  getConfig(guid?: string, deviceName?: string) {
+  getConfig(guid?: string, stationName?: string) {
     const modalRef = this.modalService.open(ModalContentComponent, { size: 'lg' });
     modalRef.componentInstance.guid = guid;
-    modalRef.componentInstance.deviceName = deviceName;
+    modalRef.componentInstance.stationName = stationName;
   }
 
-  getArchive(guid?: string, deviceName?: string) {
+  getArchive(guid?: string, stationName?: string) {
     const modalRef = this.modalService.open(ModalArchiveComponent, { size: 'lg' });
     modalRef.componentInstance.guid = guid;
-    modalRef.componentInstance.deviceName = deviceName;
+    modalRef.componentInstance.stationName = stationName;
   }
 
   counter(i: number) {
     return new Array(i);
   }
 
-  collapser(deviceGuid: string = "", panelId: number = 0) {
-    this.panels.get(deviceGuid)!.forEach(element => {
-      if (element.deviceGuid === deviceGuid && element.id == panelId) {
-        this.panels.get(deviceGuid)![panelId].active = !this.panels.get(deviceGuid)![panelId].active
+  collapser(stationGuid: string = "", panelId: number = 0) {
+    this.panels.get(stationGuid)!.forEach(element => {
+      if (element.stationGuid === stationGuid && element.id == panelId) {
+        this.panels.get(stationGuid)![panelId].active = !this.panels.get(stationGuid)![panelId].active
       }
     });
   }
