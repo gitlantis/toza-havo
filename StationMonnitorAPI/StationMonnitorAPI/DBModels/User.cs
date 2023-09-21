@@ -6,8 +6,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Xunit;
-using Xunit.Sdk;
 
 namespace StationMonnitorAPI.DBModels
 {
@@ -21,7 +19,6 @@ namespace StationMonnitorAPI.DBModels
         //[Column(TypeName = "nvarchar(50)")]
         public string LastName { get; set; }
         //[Column(TypeName = "nvarchar(50)")]
-        [Index(Unique = true)]
         public string Username { get; set; }
         //[Column(TypeName = "nvarchar(50)")]
         public string Password { get; set; }

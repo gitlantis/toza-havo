@@ -70,12 +70,12 @@ namespace StationMonnitorAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddConfig([FromBody] StationConfigModel model)
-        {
-            var result = await _stationService.SetConfig(model);
-            return Ok(result);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddConfig([FromBody] StationConfigModel model)
+        //{
+        //    var result = await _stationService.SetConfig(model);
+        //    return Ok(result);
+        //}
         
         [HttpPost]
         public async Task<IActionResult> AddConfigItems([FromBody] List<StationConfigItemModel> model)

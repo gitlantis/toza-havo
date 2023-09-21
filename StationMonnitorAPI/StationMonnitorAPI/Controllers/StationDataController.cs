@@ -105,7 +105,7 @@ namespace StationMonnitorAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> GetBoxplot([FromBody] RequestDynamicDataModel model)
+        public async Task<IActionResult> GetHeatBoxplot([FromBody] RequestDynamicDataModel model)
         {
             var result = await _stationDataService.GetDynamicData(model.id, model.param);
             return Ok(result);

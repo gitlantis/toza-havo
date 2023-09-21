@@ -1,9 +1,6 @@
 ﻿using StationMonnitorAPI.DBModels;
 using StationMonnitorAPI.Models;
 using StationMonnitorAPI.Services.Interfaces;
-using FireSharp;
-using FireSharp.Config;
-using FireSharp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
@@ -16,6 +13,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Data.Entity.Core.Objects;
+using StationMonnitorAPI.Helpers;
 
 namespace StationMonnitorAPI.Services
 {
@@ -24,13 +23,6 @@ namespace StationMonnitorAPI.Services
         private readonly MyDBContext _myDbContext;
         private readonly StationService _stationService;
         private readonly IRedisCacheService _redisCacheService;
-
-        private readonly IFirebaseConfig fbc = new FirebaseConfig()
-        {
-            AuthSecret = Constants.FirebaseSecret,
-            BasePath = Constants.FirebaseUrl
-        };
-        private IFirebaseClient client;
 
         public StationDataService(MyDBContext myDbContext, StationService stationService, IRedisCacheService redisCacheService)
         {
@@ -391,51 +383,51 @@ namespace StationMonnitorAPI.Services
                 result.Pm10 = instantValues?.A04;
                 result.Co2 = instantValues?.A14;
 
-                if(stationGuid!=null)
+                if(instantValues != null)
                 result.InstantValues = new List<StationInstantValueModel> {
                     new StationInstantValueModel
                     {
                         Section = Constants.InstantValues["temperature"],
                         CurrentValue = instantValues?.A00,
                         SubCurrentValue = instantValues?.A00,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A00))/data.Count():1,
-                        Min = data.Min(x=>x.A00),
-                        Max = data.Max(x=>x.A00)
+                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A00 ?? 0))/data.Count():1,
+                        Min = data.Min(x=>x.A00 ?? 0),
+                        Max = data.Max(x=>x.A00 ?? 0)
 
                     }, new StationInstantValueModel
                     {
                         Section = Constants.InstantValues["humadity"],
                         CurrentValue = instantValues?.A01,
                         SubCurrentValue = instantValues?.A01,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A01))/data.Count():1,
-                        Min = data.Min(x=>x.A01),
-                        Max = data.Max(x=>x.A01)
+                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A01 ?? 0))/data.Count():1,
+                        Min = data.Min(x=>x.A01 ?? 0),
+                        Max = data.Max(x=>x.A01 ?? 0)
 
                     }, new StationInstantValueModel
                     {
                         Section = Constants.InstantValues["pressure"],
                         CurrentValue = instantValues?.A28,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A01))/data.Count():1,
-                        Min = data.Min(x=>x.A01),
-                        Max = data.Max(x=>x.A01)
+                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A28 ?? 0))/data.Count():1,
+                        Min = data.Min(x=>x.A28 ?? 0),
+                        Max = data.Max(x=>x.A28 ?? 0)
 
                     }, new StationInstantValueModel
                     {
                         Section = Constants.InstantValues["wind"],
                         CurrentValue = instantValues?.A20,
                         SubCurrentValue = instantValues?.A21,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A20))/data.Count():1,
-                        Min = data.Min(x=>x.A20),
-                        Max = data.Max(x=>x.A20)
+                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A20 ?? 0))/data.Count():1,
+                        Min = data.Min(x=>x.A20 ?? 0),
+                        Max = data.Max(x=>x.A20 ?? 0)
 
                     }, new StationInstantValueModel
                     {
                         Section = Constants.InstantValues["radiation"],
                         CurrentValue = instantValues?.A29,
                         SubCurrentValue = instantValues?.A29,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A29))/data.Count():0,
-                        Min = data.Min(x=>x.A29),
-                        Max = data.Max(x=>x.A29)
+                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A29 ?? 0))/data.Count():0,
+                        Min = data.Min(x=>x.A29 ?? 0),
+                        Max = data.Max(x=>x.A29 ?? 0)
                     }
                  };
 
@@ -473,50 +465,81 @@ namespace StationMonnitorAPI.Services
 
         public async Task<DynamicChartsDataModel> GetDynamicData(Guid stationGuid, string param)
         {
-            //try
-            //{
+            try
+            {
                 var result = new DynamicChartsDataModel();
-            //result.Pm1_0 = instantValues?.A02;
-            //result.Pm2_5 = instantValues?.A03;
-            //result.Pm10 = instantValues?.A04;
-            //result.Co2 = instantValues?.A14;
 
-            switch (param)
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+                var data = await _myDbContext.StationData
+                    .Where(c => c.StationGuid == stationGuid && c.StationDate > DateTime.Now.AddDays(-7))
+                    .GroupBy(t => new
+                    {
+                        Day = t.StationDate.Date,
+                        Hour = t.StationDate.Hour
+                    })
+                    .Select(g => new
+                    {
+                        Day = g.Key.Day,
+                        Hour = g.Key.Hour,
+                        PM1_0 = g.Average(t => t.A02),
+                        PM2_5 = g.Average(t => t.A03),
+                        PM10 = g.Average(t => t.A04),
+                        CO2 = g.Average(t => t.A14)
+                    })
+                    .OrderBy(result => result.Day)
+                    .ThenBy(result => result.Hour)
+                    .ToListAsync();
+
+                var days = data.GroupBy(c => c.Day);
+                result.BoxPlot = new List<double[]>();
+                result.Heatmap = new List<double[]>();
+                result.Days = new List<DateTime>();
+
+                int i = 6;
+
+                foreach (var day in days)
                 {
-                    case "pm1_0":
-                    var data = _myDbContext.StationData
-                            .Where(c => c.StationGuid == (stationGuid) && c.CreatedDate > DateTime.Now.AddDays(-7)).OrderByDescending(c => c.CreatedDate);
-    //                var query = _myDbContext.Times
-    //.GroupBy(t => new
-    //{
-    //    Day = EntityFunctions.TruncateTime(t.Timestamp),
-    //    Hour = DbFunctions.CreateTime(t.Timestamp.Hour, 0, 0)
-    //})
-    //.Select(g => new
-    //{
-    //    Day = g.Key.Day,
-    //    Hour = g.Key.Hour,
-    //    Average = g.Average(t => t.Value)
-    //})
-    //.ToList();
-                    break;
-                    case "pm2_5":
-                        break;
-                    case "pm10":
-                        break;
-                    case "co2":
-                        break;
-                    default:
-                        return null;
+                    IEnumerable<double> daylyValues;
+                    switch (param)
+                    {
+                        case "pm1_0":
+                            daylyValues = day.Select(c => c.PM1_0).Cast<double>();
+                            break;
+                        case "pm2_5":
+                            daylyValues = day.Select(c => c.PM2_5).Cast<double>();
+                            break;
+                        case "pm10":
+                            daylyValues = day.Select(c => c.PM10).Cast<double>();
+                            break;
+                        case "co2":
+                            daylyValues = day.Select(c => c.CO2).Cast<double>();
+                            break;
+                        default:
+                            return null;
+                    }
+
+                    var hours = day.Select(c => c.Hour).Cast<int>().ToArray();
+                    var plot = BoxPlotCalculator.CalculateBoxPlotStatistics(daylyValues.ToArray());
+
+                    var d = day.Select(c => c.Day).Cast<DateTime>().FirstOrDefault();
+                    result.Days.Add(d);
+                    result.BoxPlot.Add(new double[] { plot.Minimum, plot.LowerQuartile, plot.Median, plot.UpperQuartile, plot.Maximum });
+
+                    var deylyQueue = new Queue<double>(daylyValues.ToArray());
+                    for (var j = 0; j < 24; j++)
+                    {
+                        result.Heatmap.Add(new double[] { j, i, hours.Contains(j) ? deylyQueue.Dequeue() : 0 });
+                    }
+                    i--;
                 }
-                
+                result.BoxplotMedian = BoxPlotCalculator.CalculateBoxPlotsMedian(result.BoxPlot.ToArray());
 
                 return result;
-            //}
-            //catch (Exception e)
-            //{
-            //    return null;
-            //}
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         private List<ChildDataWithParam>  WeatherMass(StationData data)

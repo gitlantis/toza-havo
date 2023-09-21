@@ -1,7 +1,4 @@
-﻿using FireSharp;
-using FireSharp.Config;
-using FireSharp.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,13 +15,6 @@ namespace StationMonnitorAPI.Services
         private readonly ILogger<TimedHostedService> _logger;        
         private Timer _timer;
         private readonly IServiceScopeFactory _scopeFactory;
-        
-        private readonly IFirebaseConfig fbc = new FirebaseConfig()
-        {
-            AuthSecret = Constants.FirebaseSecret,
-            BasePath = Constants.FirebaseUrl
-        };
-        private IFirebaseClient client;
 
         public TimedHostedService(ILogger<TimedHostedService> logger, IServiceScopeFactory scopeFactory)
         {            
@@ -34,8 +24,6 @@ namespace StationMonnitorAPI.Services
 
         public Task StartAsync(CancellationToken stoppingToken)
         {            
-            client = new FirebaseClient(fbc);
-            client.Delete($"{Constants.baseTree}");
             _logger.LogInformation("Timed Hosted Service running.");
 
             DoWork(stoppingToken);

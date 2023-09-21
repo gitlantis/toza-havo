@@ -1,8 +1,5 @@
 ﻿using StationMonnitorAPI.DBModels;
 using StationMonnitorAPI.Models;
-using FireSharp;
-using FireSharp.Config;
-using FireSharp.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -18,13 +15,6 @@ namespace StationMonnitorAPI.Services
     public class StationService
     {
         private readonly MyDBContext _myDbContext;
-        private readonly IFirebaseConfig fbc = new FirebaseConfig()
-
-        {
-            AuthSecret = Constants.FirebaseSecret,
-            BasePath = Constants.FirebaseUrl
-        };
-        private IFirebaseClient client;
         public StationService(MyDBContext myDbContext)
         {
             _myDbContext = myDbContext;
@@ -211,48 +201,48 @@ namespace StationMonnitorAPI.Services
             }
         }
 
-        public async Task<StationConfigModel> SetConfig(StationConfigModel model)
-        {
-            try
-            {
-                var fbArr = new dynamic[9];
-                var dbModel = new StationConfig();
+        //public async Task<StationConfigModel> SetConfig(StationConfigModel model)
+        //{
+        //    try
+        //    {
+        //        var fbArr = new dynamic[9];
+        //        var dbModel = new StationConfig();
 
-                dbModel.StationGuid = model.StationGuid;
-                fbArr[0] = dbModel.UMax = model.UMax;
-                fbArr[1] = dbModel.UMin = model.UMin;
-                fbArr[2] = dbModel.Calm = model.Calm;
-                fbArr[3] = dbModel.Wup = model.Wup;
-                fbArr[4] = dbModel.Wdw = model.Wdw;
-                fbArr[5] = dbModel.Overtime = model.Overtime;
-                fbArr[6] = dbModel.DownTime = model.DownTime;
-                fbArr[7] = dbModel.OverVtime = model.OverVtime;
-                fbArr[8] = dbModel.LowVtime = model.LowVtime;
-                dbModel.DO0 = model.DO0;
-                dbModel.DO1 = model.DO1;
-                dbModel.DO2 = model.DO2;
-                dbModel.DO3 = model.DO3;
+        //        dbModel.StationGuid = model.StationGuid;
+        //        fbArr[0] = dbModel.UMax = model.UMax;
+        //        fbArr[1] = dbModel.UMin = model.UMin;
+        //        fbArr[2] = dbModel.Calm = model.Calm;
+        //        fbArr[3] = dbModel.Wup = model.Wup;
+        //        fbArr[4] = dbModel.Wdw = model.Wdw;
+        //        fbArr[5] = dbModel.Overtime = model.Overtime;
+        //        fbArr[6] = dbModel.DownTime = model.DownTime;
+        //        fbArr[7] = dbModel.OverVtime = model.OverVtime;
+        //        fbArr[8] = dbModel.LowVtime = model.LowVtime;
+        //        dbModel.DO0 = model.DO0;
+        //        dbModel.DO1 = model.DO1;
+        //        dbModel.DO2 = model.DO2;
+        //        dbModel.DO3 = model.DO3;
 
-                dbModel.ConfGuid = Guid.NewGuid();
-                dbModel.CreatedDate = DateTime.Now;
+        //        dbModel.ConfGuid = Guid.NewGuid();
+        //        dbModel.CreatedDate = DateTime.Now;
 
-                _myDbContext.Add(dbModel);
-                _myDbContext.SaveChanges();
+        //        _myDbContext.Add(dbModel);
+        //        _myDbContext.SaveChanges();
 
-                model.CreatedDate = dbModel.CreatedDate;
-                model.ConfGuid = dbModel.ConfGuid;
+        //        model.CreatedDate = dbModel.CreatedDate;
+        //        model.ConfGuid = dbModel.ConfGuid;
 
-                //write to firebase
-                client = new FirebaseClient(fbc);
+        //        //write to firebase
+        //        client = new FirebaseClient(fbc);
 
-                return model;
-            }
-            catch (Exception ex)
-            {
-                var err = ex.Message;
-                throw;
-            }
-        }
+        //        return model;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var err = ex.Message;
+        //        throw;
+        //    }
+        //}
 
         public async Task<List<StationConfigItemModel>> SetConfigItems(List<StationConfigItemModel> model)
         {
