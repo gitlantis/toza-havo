@@ -9,7 +9,7 @@ namespace StationMonnitorAPI.Helpers
         {
             var statistics = new BoxPlotStatistics();
 
-            if (data.Length == 0)
+            if (data.Length < 5)
                 return statistics;
 
             // Sort the data

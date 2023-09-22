@@ -22,13 +22,13 @@ namespace StationMonnitorAPI.Services
     {
         private readonly MyDBContext _myDbContext;
         private readonly StationService _stationService;
-        private readonly IRedisCacheService _redisCacheService;
+        //private readonly IRedisCacheService _redisCacheService;
 
-        public StationDataService(MyDBContext myDbContext, StationService stationService, IRedisCacheService redisCacheService)
+        public StationDataService(MyDBContext myDbContext, StationService stationService)
         {
             _myDbContext = myDbContext;
             _stationService = stationService;
-            _redisCacheService = redisCacheService;
+            //_redisCacheService = redisCacheService;
 
         }
 
@@ -72,11 +72,11 @@ namespace StationMonnitorAPI.Services
 
                 foreach (var station in stations)
                 {
-                    var data = _redisCacheService.Get<StationDynamicData>(station.StationGuid);
-                    if (data == null)
-                    {
-                        data = await this.SetCacheDynamicData(station);
-                    }
+                    //var data = _redisCacheService.Get<StationDynamicData>(station.StationGuid);
+                    //if (data == null)
+                    //{
+                       var data = await this.SetCacheDynamicData(station);
+                    //}
                     dynData.Add(data);
                 }
                 return dynData;
@@ -289,8 +289,8 @@ namespace StationMonnitorAPI.Services
                         AI = rawDataAI.OrderBy(c => c.ParamOrder).ToList(),
                     };
 
-                _redisCacheService.Delete<StationDynamicData>(station.StationGuid);
-                _redisCacheService.Set<StationDynamicData>(station.StationGuid, dynData);
+                //_redisCacheService.Delete<StationDynamicData>(station.StationGuid);
+                //_redisCacheService.Set<StationDynamicData>(station.StationGuid, dynData);
                 return dynData;
             }
             catch (Exception e)
@@ -373,8 +373,10 @@ namespace StationMonnitorAPI.Services
 
                 var stations = await _stationService.GetStations();
 
+                AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
                 var data = _myDbContext.StationData
-                    .Where(c => c.StationGuid == (stationGuid ?? stations.FirstOrDefault().StationGuid) && c.CreatedDate > DateTime.Now.AddDays(-7)).OrderByDescending(c => c.CreatedDate);
+                    .Where(c => c.StationGuid == (stationGuid ?? stations.FirstOrDefault().StationGuid) && c.CreatedDate > DateTime.Now.AddDays(-7).ToUniversalTime()).OrderByDescending(c => c.CreatedDate);
 
                 var instantValues = await data.FirstOrDefaultAsync();
                 result.Aqi = 99;
@@ -461,7 +463,7 @@ namespace StationMonnitorAPI.Services
             {
                 return null;
             }
-        }
+}
 
         public async Task<DynamicChartsDataModel> GetDynamicData(Guid stationGuid, string param)
         {
@@ -471,7 +473,7 @@ namespace StationMonnitorAPI.Services
 
                 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 var data = await _myDbContext.StationData
-                    .Where(c => c.StationGuid == stationGuid && c.StationDate > DateTime.Now.AddDays(-7))
+                    .Where(c => c.StationGuid == stationGuid && c.StationDate > DateTime.Now.AddDays(-10).ToUniversalTime())
                     .GroupBy(t => new
                     {
                         Day = t.StationDate.Date,
@@ -517,7 +519,7 @@ namespace StationMonnitorAPI.Services
                         default:
                             return null;
                     }
-
+                    
                     var hours = day.Select(c => c.Hour).Cast<int>().ToArray();
                     var plot = BoxPlotCalculator.CalculateBoxPlotStatistics(daylyValues.ToArray());
 
