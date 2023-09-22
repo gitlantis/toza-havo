@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HeatmapModule from 'highcharts/modules/heatmap';
 import HighchartsMore from 'highcharts/highcharts-more';
+import { DataService } from 'src/services/data.service';
+import { RequestHeatBoxplot } from 'src/helpers/request-heatboxplot.model';
+import { HeatBoxPlot } from 'src/helpers/heatboxplot.model';
 
 HighchartsMore(Highcharts);
 HeatmapModule(Highcharts);
@@ -13,22 +16,42 @@ HeatmapModule(Highcharts);
 })
 
 export class DynamicDirtCardComponent {
+  params: Record<string, string> = { "pm1_0": "Chang (PM 1.0)", "pm2_5": "Chang (PM 2.5)", "pm10": "Chang (PM 10)", "co2": "CO2" }
   HeatmapChart: typeof Highcharts = Highcharts;
   AudioBoxPlot: typeof Highcharts = Highcharts;
 
   heatmapOptions: Highcharts.Options = {};
   audioOptions: Highcharts.Options = {};
   updateFlag: boolean = true;
+  request: RequestHeatBoxplot = { id: "3fa85f64-5717-4562-b3fc-2c963f66afa6", param: "pm1_0" };
+  heatboxplot?: HeatBoxPlot | undefined;
+  public cardTitle: string = this.params["pm1_0"];
 
-  constructor() { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
-
-    this.heatmapPlot();
-    this.boxPlot();
+    this.heatmapPlot(null);
+    this.boxPlot(null);
+    this.drawPlot(this.request);
   }
 
-  heatmapPlot() {
+  drawPlot(request: RequestHeatBoxplot) {
+    this.dataService.getHeatBoxPlot(this.request).subscribe(res => {
+      this.heatboxplot = res as HeatBoxPlot;
+      this.heatmapPlot(this.heatboxplot.heatmap);
+      this.boxPlot(this.heatboxplot.boxPlot, this.heatboxplot.boxplotMedian);
+    })
+  }
+
+  selectParam(param: string) {
+    if (this.request.param !== param) {
+      this.cardTitle = this.params[param];
+      this.request.param = param;
+      this.drawPlot(this.request)
+    }
+  }
+
+  heatmapPlot(data: any) {
     this.heatmapOptions = {
       chart: {
         type: 'heatmap',
@@ -89,31 +112,7 @@ export class DynamicDirtCardComponent {
       series: [{
         type: 'heatmap',
         borderWidth: 1,
-        data: [
-          [0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 67], [0, 5, 10], [0, 6, 10],
-          [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [1, 5, 92], [1, 6, 92],
-          [2, 0, 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [2, 5, 35], [2, 6, 35],
-          [3, 0, 72], [3, 1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [3, 5, 72], [3, 6, 72],
-          [4, 0, 38], [4, 1, 5], [4, 2, 8], [4, 3, 117], [4, 4, 115], [4, 5, 38], [4, 6, 38],
-          [5, 0, 88], [5, 1, 32], [5, 2, 12], [5, 3, 6], [5, 4, 120], [5, 5, 88], [5, 6, 88],
-          [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], [6, 4, 96], [6, 5, 13], [6, 6, 13],
-          [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], [7, 5, 31], [7, 6, 31],
-          [8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [8, 5, 85], [8, 6, 85],
-          [9, 0, 47], [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91], [9, 5, 47], [9, 6, 47],
-          [10, 0, 47], [10, 1, 114], [10, 2, 31], [10, 3, 48], [10, 4, 91], [10, 5, 47], [10, 6, 47],
-          [11, 0, 47], [11, 1, 114], [11, 2, 31], [11, 3, 48], [11, 4, 91], [11, 5, 47], [11, 6, 47],
-          [12, 0, 47], [12, 1, 114], [12, 2, 31], [12, 3, 48], [12, 4, 91], [12, 5, 47], [12, 6, 47],
-          [13, 0, 47], [13, 1, 114], [13, 2, 31], [13, 3, 48], [13, 4, 91], [13, 5, 47], [13, 6, 47],
-          [14, 0, 47], [14, 1, 114], [14, 2, 31], [14, 3, 48], [14, 4, 91], [14, 5, 47], [14, 6, 47],
-          [15, 0, 47], [15, 1, 114], [15, 2, 31], [15, 3, 48], [15, 4, 91], [15, 5, 47], [15, 6, 47],
-          [16, 0, 47], [16, 1, 114], [16, 2, 31], [16, 3, 48], [16, 4, 91], [16, 5, 47], [16, 6, 47],
-          [17, 0, 47], [17, 1, 114], [17, 2, 31], [17, 3, 48], [17, 4, 91], [17, 5, 47], [17, 6, 47],
-          [18, 0, 47], [18, 1, 114], [18, 2, 31], [18, 3, 48], [18, 4, 91], [18, 5, 47], [18, 6, 47],
-          [19, 0, 47], [19, 1, 114], [19, 2, 31], [19, 3, 48], [19, 4, 91], [19, 5, 47], [19, 6, 47],
-          [20, 0, 47], [20, 1, 114], [20, 2, 31], [20, 3, 48], [20, 4, 91], [20, 5, 47], [20, 6, 47],
-          [21, 0, 47], [21, 1, 114], [21, 2, 31], [21, 3, 48], [21, 4, 91], [21, 5, 47], [21, 6, 47],
-          [22, 0, 47], [22, 1, 114], [22, 2, 31], [22, 3, 48], [22, 4, 91], [22, 5, 47], [22, 6, 47],
-        ],
+        data: data,
         dataLabels: {
           enabled: false,
         }
@@ -136,7 +135,7 @@ export class DynamicDirtCardComponent {
 
     }
   };
-  boxPlot() {
+  boxPlot(data: any, median?: number) {
     this.audioOptions = {
       chart: {
         type: 'boxplot',
@@ -152,12 +151,12 @@ export class DynamicDirtCardComponent {
       },
       yAxis: {
         plotLines: [{
-          value: 932,
+          value: median,
           color: 'red',
           width: 1,
           zIndex: 7,
           label: {
-            text: 'Theoretical mean: 932',
+            text: `Umumiy o'rtacha: ${median}`,
             align: 'center',
             style: {
               color: 'gray'
@@ -172,15 +171,7 @@ export class DynamicDirtCardComponent {
         {
           type: 'boxplot',
           showInLegend: false,
-          data: [
-            [760, 801, 848, 895, 965],
-            [733, 853, 939, 980, 1080],
-            [714, 762, 817, 870, 918],
-            [724, 802, 806, 871, 950],
-            [724, 802, 806, 871, 950],
-            [733, 853, 939, 980, 1080],
-            [733, 853, 939, 980, 1080],
-          ],
+          data: data,
         },
       ],
     }

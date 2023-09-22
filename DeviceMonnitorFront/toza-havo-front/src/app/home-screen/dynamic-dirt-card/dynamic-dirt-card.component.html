@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="d-flex justify-content-between">
           <div class="pt-1">
-            <p>Chang (PM 1.0)</p>
+            <p>{{ cardTitle }}</p>
           </div>
           <div class="dropdown">
             <button
@@ -13,17 +13,27 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Chang (PM 1.0)
+              {{ cardTitle }}
             </button>
             <ul class="dropdown-menu">
               <li>
-                <a class="dropdown-item" href="#">Chang (PM 1.0)</a>
+                <a class="dropdown-item" (click)="selectParam('pm1_0')"
+                  >Chang (PM 1.0)</a
+                >
               </li>
               <li>
-                <a class="dropdown-item" href="#">Chang (PM 2.5)</a>
+                <a class="dropdown-item" (click)="selectParam('pm2_5')"
+                  >Chang (PM 2.5)</a
+                >
               </li>
-              <li><a class="dropdown-item" href="#">Chang (PM 10)</a></li>
-              <li><a class="dropdown-item" href="#">CO2</a></li>
+              <li>
+                <a class="dropdown-item" (click)="selectParam('pm10')"
+                  >Chang (PM 10)</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="selectParam('co2')">CO2</a>
+              </li>
             </ul>
           </div>
         </div>

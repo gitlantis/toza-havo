@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ArchiveData } from 'src/helpers/archive-data.model';
 import { InstantData } from 'src/helpers/instant-data.model';
 import { HeatBoxPlot } from 'src/helpers/heatboxplot.model';
-import { HeatBoxplotRequest } from 'src/helpers/heatboxplot-request.model';
+import { RequestHeatBoxplot } from 'src/helpers/request-heatboxplot.model';
 import { RequestWithId } from 'src/helpers/request-with-id.model';
 @Injectable({
   providedIn: 'root'
@@ -51,7 +51,7 @@ export class DataService extends BaseService {
     return this.httpClient.post<InstantData>(this.constants.baseUrl + '/StationData/GetInstantData', JSON.stringify(data))
   }
 
-  getHeatBoxPlot(data: HeatBoxplotRequest): Observable<HeatBoxPlot> {
+  getHeatBoxPlot(data: RequestHeatBoxplot): Observable<HeatBoxPlot> {
     return this.httpClient.post<HeatBoxPlot>(this.constants.baseUrl + '/StationData/GetHeatBoxplot', JSON.stringify(data))
   }
 
