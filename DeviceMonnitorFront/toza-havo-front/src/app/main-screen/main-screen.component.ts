@@ -3,9 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/services/auth.service';
 import { DataService } from 'src/services/data.service';
 import { ModalContentComponent } from '../modal-content/modal-content.component';
-import { interval, Observable } from 'rxjs';
 import { UserService } from 'src/services/user.service';
-import { HttpClient } from '@microsoft/signalr';
 import { DynamicData } from 'src/helpers/dynamic-data.model';
 import { Constants } from 'src/constants';
 import { HttpHeaders } from '@angular/common/http';
@@ -26,7 +24,7 @@ export class MainScreenComponent implements OnInit {
   timeZoneOffset = new Date().getTimezoneOffset();
   utcDate = new Date('08/08/2019 13:07:48 PM UTC');
   // |  date:'yyyy-MM-dd HH:mm:ss':timeZoneOffset.toString()
-  public header = new HttpHeaders({ 'Content-Type': 'application/JSON', 'Authorization': 'Bearer ' + UserService.getToken() });
+  // public header = new HttpHeaders({ 'Content-Type': 'application/JSON', 'Authorization': 'Bearer ' + UserService.getToken() });
 
   constructor(private authService: AuthService, private dataService: DataService, private modalService: NgbModal,
     private userService: UserService, private router: Router) { }

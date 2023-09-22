@@ -10,6 +10,10 @@ import { BaseService } from './base.service';
 import { UserService } from './user.service';
 import { ToastrService } from 'ngx-toastr';
 import { ArchiveData } from 'src/helpers/archive-data.model';
+import { InstantData } from 'src/helpers/instant-data.model';
+import { HeatBoxPlot } from 'src/helpers/heatboxplot.model';
+import { HeatBoxplotRequest } from 'src/helpers/heatboxplot-request.model';
+import { RequestWithId } from 'src/helpers/request-with-id.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +45,14 @@ export class DataService extends BaseService {
 
   getArchive(data: any): Observable<Array<ArchiveData>> {
     return this.httpClient.post<Array<ArchiveData>>(this.constants.baseUrl + '/StationData/GetArchive', JSON.stringify(data))
+  }
+
+  getInstantData(data: RequestWithId): Observable<InstantData> {
+    return this.httpClient.post<InstantData>(this.constants.baseUrl + '/StationData/GetInstantData', JSON.stringify(data))
+  }
+
+  getHeatBoxPlot(data: HeatBoxplotRequest): Observable<HeatBoxPlot> {
+    return this.httpClient.post<HeatBoxPlot>(this.constants.baseUrl + '/StationData/GetHeatBoxplot', JSON.stringify(data))
   }
 
   toRawArchValue<T extends ArchiveData>(requestData: ArchiveData): ArchiveData {

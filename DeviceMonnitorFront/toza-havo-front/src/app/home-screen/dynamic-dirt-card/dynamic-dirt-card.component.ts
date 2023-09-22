@@ -23,6 +23,7 @@ export class DynamicDirtCardComponent {
   constructor() { }
 
   ngOnInit() {
+
     this.heatmapPlot();
     this.boxPlot();
   }

@@ -145,3 +145,29 @@
       font-size: 12px;
       font-weight: 400;
     }
+    .banner-bg-success{
+      background-color: #33d44e;
+      opacity: .9;
+    }
+
+    .banner-bg-warning{
+      background-color: #fae371;
+      opacity: .9;
+    }
+
+    .banner-bg-danger{
+      background-color: #ff1919;
+      opacity: .9;
+    }    
+
+    .banner-text-color-success{
+      color: #00470c;
+    }
+
+    .banner-text-color-warning{
+      color: #504200;
+    }
+
+    .banner-text-color-danger{
+      color: #3c0000;
+    }
