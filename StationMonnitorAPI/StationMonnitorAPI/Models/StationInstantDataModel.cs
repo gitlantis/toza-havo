@@ -10,6 +10,10 @@ namespace StationMonnitorAPI.Models
         public double? Pm2_5 { get; set; }
         public double? Pm10 { get; set; }
         public double? Co2 { get; set; }
-        public List<StationInstantValueModel> InstantValues { get; set; }
+        public StationInstantValueModel Temperature { get; set; }
+        public StationInstantValueModel Humadity { get; set; }
+        public StationInstantValueModel Pressure { get; set; }
+        public StationInstantValueModel WindSpeed { get; set; }
+        public StationInstantValueModel SolarRadiation { get; set; }
     }
 }

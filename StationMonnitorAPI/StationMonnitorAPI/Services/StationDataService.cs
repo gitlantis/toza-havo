@@ -385,54 +385,50 @@ namespace StationMonnitorAPI.Services
                 result.Pm10 = instantValues?.A04;
                 result.Co2 = instantValues?.A14;
 
-                if(instantValues != null)
-                result.InstantValues = new List<StationInstantValueModel> {
-                    new StationInstantValueModel
-                    {
-                        Section = Constants.InstantValues["temperature"],
+                if (instantValues != null) {
+                    result.Temperature = new StationInstantValueModel { 
                         CurrentValue = instantValues?.A00,
                         SubCurrentValue = instantValues?.A00,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A00 ?? 0))/data.Count():1,
-                        Min = data.Min(x=>x.A00 ?? 0),
-                        Max = data.Max(x=>x.A00 ?? 0)
+                        Avg = data.Count() > 0 ? data.Sum(x => Convert.ToInt32(x.A00 ?? 0)) / data.Count() : 1,
+                        Min = data.Min(x => x.A00 ?? 0),
+                        Max = data.Max(x => x.A00 ?? 0)
 
-                    }, new StationInstantValueModel
+                    };
+                    result.Humadity = new StationInstantValueModel
                     {
-                        Section = Constants.InstantValues["humadity"],
                         CurrentValue = instantValues?.A01,
                         SubCurrentValue = instantValues?.A01,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A01 ?? 0))/data.Count():1,
-                        Min = data.Min(x=>x.A01 ?? 0),
-                        Max = data.Max(x=>x.A01 ?? 0)
+                        Avg = data.Count() > 0 ? data.Sum(x => Convert.ToInt32(x.A01 ?? 0)) / data.Count() : 1,
+                        Min = data.Min(x => x.A01 ?? 0),
+                        Max = data.Max(x => x.A01 ?? 0)
 
-                    }, new StationInstantValueModel
+                    };
+                    result.Pressure = new StationInstantValueModel
                     {
-                        Section = Constants.InstantValues["pressure"],
                         CurrentValue = instantValues?.A28,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A28 ?? 0))/data.Count():1,
-                        Min = data.Min(x=>x.A28 ?? 0),
-                        Max = data.Max(x=>x.A28 ?? 0)
+                        Avg = data.Count() > 0 ? data.Sum(x => Convert.ToInt32(x.A28 ?? 0)) / data.Count() : 1,
+                        Min = data.Min(x => x.A28 ?? 0),
+                        Max = data.Max(x => x.A28 ?? 0)
 
-                    }, new StationInstantValueModel
+                    };
+                    result.WindSpeed = new StationInstantValueModel
                     {
-                        Section = Constants.InstantValues["wind"],
                         CurrentValue = instantValues?.A20,
                         SubCurrentValue = instantValues?.A21,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A20 ?? 0))/data.Count():1,
-                        Min = data.Min(x=>x.A20 ?? 0),
-                        Max = data.Max(x=>x.A20 ?? 0)
+                        Avg = data.Count() > 0 ? data.Sum(x => Convert.ToInt32(x.A20 ?? 0)) / data.Count() : 1,
+                        Min = data.Min(x => x.A20 ?? 0),
+                        Max = data.Max(x => x.A20 ?? 0)
 
-                    }, new StationInstantValueModel
+                    };
+                    result.SolarRadiation = new StationInstantValueModel
                     {
-                        Section = Constants.InstantValues["radiation"],
                         CurrentValue = instantValues?.A29,
                         SubCurrentValue = instantValues?.A29,
-                        Avg = data.Count()>0?data.Sum(x=>Convert.ToInt32(x.A29 ?? 0))/data.Count():0,
-                        Min = data.Min(x=>x.A29 ?? 0),
-                        Max = data.Max(x=>x.A29 ?? 0)
-                    }
+                        Avg = data.Count() > 0 ? data.Sum(x => Convert.ToInt32(x.A29 ?? 0)) / data.Count() : 0,
+                        Min = data.Min(x => x.A29 ?? 0),
+                        Max = data.Max(x => x.A29 ?? 0)
+                    };
                  };
-
                 var locations = await _myDbContext.Stations
                     .Include(c => c.StationsData)
                     .Select(c => new
@@ -463,7 +459,7 @@ namespace StationMonnitorAPI.Services
             {
                 return null;
             }
-}
+        }
 
         public async Task<DynamicChartsDataModel> GetDynamicData(Guid stationGuid, string param)
         {
@@ -473,7 +469,7 @@ namespace StationMonnitorAPI.Services
 
                 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
                 var data = await _myDbContext.StationData
-                    .Where(c => c.StationGuid == stationGuid && c.StationDate > DateTime.Now.AddDays(-10).ToUniversalTime())
+                    .Where(c => c.StationGuid == stationGuid && c.StationDate > DateTime.Now.AddDays(-7).ToUniversalTime())
                     .GroupBy(t => new
                     {
                         Day = t.StationDate.Date,
