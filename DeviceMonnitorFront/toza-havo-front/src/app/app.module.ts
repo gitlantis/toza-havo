@@ -21,7 +21,7 @@ import en from '@angular/common/locales/en';
 import { NgZorroAntdModule } from './ng-zorro-ant.module';
 import { TokenInterceptor } from './token.interceptor';
 import { BannerCardComponent } from './home-screen/banner-card/banner-card.component';
-import { CurrentValuesCardComponent } from './home-screen/current-values-card/current-values-card.component';
+import { CurrentValuesCardComponent } from './home-screen/instant-values-card/instant-values-card.component';
 import { DirtHistoryCardComponent } from './home-screen/dirt-history-card/dirt-history-card.component';
 import { DynamicDirtCardComponent } from './home-screen/dynamic-dirt-card/dynamic-dirt-card.component';
 import { EvapotranspiratsiyaHistoryCardComponent } from './home-screen/evapotranspiratsiya-history-card/evapotranspiratsiya-history-card.component';

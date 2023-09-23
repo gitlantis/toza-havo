@@ -32,7 +32,6 @@ export class ModalContentComponent implements OnInit {
       .subscribe(
         res => {
           this.stationConfig = res as StationConfigItems[];
-          console.log(this.stationConfig)
         },
         err => {
           this.toastr.error(err.message, 'Config read error!');

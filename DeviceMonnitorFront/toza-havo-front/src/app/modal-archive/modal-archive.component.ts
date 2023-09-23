@@ -47,7 +47,6 @@ export class ModalArchiveComponent implements OnInit {
       .subscribe(
         res => {
           this.archive = res;
-          // console.log(res)
           this.params.pageCount = this.archive[0].pageCount * 10;
         },
         err => {

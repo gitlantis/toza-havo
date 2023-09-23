@@ -17,7 +17,6 @@ export class LoginScreenComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
-    console.log('boom');
     var token = UserService.getToken();
     var decoded = jwt_decode(token);
     if (token != null && (Number((decoded as any)['exp'] + '000') > Date.now())) {

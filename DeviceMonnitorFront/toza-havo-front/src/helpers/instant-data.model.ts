@@ -5,7 +5,11 @@ export class InstantData {
     pm2_5?: number
     pm10?: number
     co2?: number
-    instantValues?: InstantValue[]
+    temperature?: InstantValue
+    humadity?: InstantValue
+    pressure?: InstantValue
+    windSpeed?: InstantValue
+    solarRadiation?: InstantValue
 }
 
 export class StationLocation {
@@ -17,10 +21,8 @@ export class StationLocation {
 }
 
 export class InstantValue {
-    section?: string
     currentValue?: number
     subCurrentValue?: number
-    average?: number
     min?: number
     avg?: number
     max?: number

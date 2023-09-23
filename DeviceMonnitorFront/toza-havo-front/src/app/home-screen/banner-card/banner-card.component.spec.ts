@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BannerCardComponent } from './banner-card.component';
 
 describe('BannerCardComponent', () => {

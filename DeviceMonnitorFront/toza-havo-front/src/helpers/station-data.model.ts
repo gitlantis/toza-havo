@@ -1,4 +1,4 @@
 export class StationData {
-    colNames: Array<string>;
-    colVals: Array<number>;
+    colNames?: Array<string>;
+    colVals?: Array<number>;
 }
