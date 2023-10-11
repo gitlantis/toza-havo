@@ -22,7 +22,7 @@ namespace StationMonnitorAPI.Controllers
 
         }
 
-        [Authorize(Roles = "ApiAdmin, Admin")]
+        [Authorize(Roles = "ApiAdmin, Admin, Station")]
         [HttpPost]
         public async Task<IActionResult> GetStations()
         {

@@ -37,7 +37,7 @@ namespace StationMonnitorAPI.DBModels
             modelBuilder.Entity<User>().HasData(
                 new User { UserGuid = Guid.NewGuid(), FirstName = "Api", LastName = "Admin", Username = "apiadmin", Password = "@p!Adm!n21U$er00222", IsActive = true, Role = "ApiAdmin", CreatedDate = DateTime.Now },
                 new User { UserGuid = Guid.NewGuid(), FirstName = "Admin", LastName = "User", Username = "admin", Password = "@@dm!nU$er", IsActive = true, Role = "Admin", CreatedDate = DateTime.Now },
-                new User { UserGuid = Guid.NewGuid(), FirstName = "Station", LastName = "User", Username = "station", Password = "_MyP0werfulDev!ce", IsActive = true, Role = "station", CreatedDate = DateTime.Now }
+                new User { UserGuid = Guid.NewGuid(), FirstName = "Station", LastName = "User", Username = "station", Password = "_MyP0werfulDev!ce", IsActive = true, Role = "Station", CreatedDate = DateTime.Now }
                 );
 
             // Map entities to tables  
@@ -59,7 +59,7 @@ namespace StationMonnitorAPI.DBModels
                 new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A02), Name = "AirPM1_0", Description = "Air dist PM1.0" },
                 new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A03), Name = "AirPM2_5", Description = "Air dist PM2.5" },
                 new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A04), Name = "AirPM10_", Description = "Air dist PM10" },
-                new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A05), Name = "AirPMAdd1", Description = "AirPMAdd1" },
+                new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A05), Name = "AQI", Description = "AQI" },
                 new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A06), Name = "AirPMAdd2", Description = "AirPMAdd2" },
                 new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A07), Name = "AirPMAdd3", Description = "AirPMAdd3" },
                 new StationDataParam { Id = Guid.NewGuid(), Param = nameof(weatherData.A08), Name = "AirPMAdd4", Description = "AirPMAdd4" },

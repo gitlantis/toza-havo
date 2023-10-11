@@ -74,6 +74,3 @@ export class DataService extends BaseService {
   }
 
 }
-
-
-

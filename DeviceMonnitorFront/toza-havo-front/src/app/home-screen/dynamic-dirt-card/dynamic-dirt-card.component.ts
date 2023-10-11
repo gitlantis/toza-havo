@@ -23,7 +23,7 @@ export class DynamicDirtCardComponent {
   heatmapOptions: Highcharts.Options = {};
   audioOptions: Highcharts.Options = {};
   updateFlag: boolean = true;
-  request: RequestHeatBoxplot = { id: "3fa85f64-5717-4562-b3fc-2c963f66afa6", param: "pm1_0" };
+  request: RequestHeatBoxplot = { id: "", param: "pm1_0" };
   heatboxplot?: HeatBoxPlot | undefined;
   public cardTitle: string = this.params["pm1_0"];
 
